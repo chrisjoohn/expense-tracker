@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+  api:
+    container_name: expense-tracker-api
+    restart: always
+    build: ./api
+    volumes:
+      - ./api:/usr/src/app
+    ports:
+      - "8080:8080"
+    external_links:
+      - mongo
+    command: yarn dev
+
+  mongo:
+    container_name: expense-tracker-db
+    image: mongo
+    ports:
+      - "27017:27017"
