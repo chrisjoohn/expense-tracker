@@ -11,6 +11,8 @@ services:
       - "8080:8080"
     external_links:
       - mongo
+    env_file:
+      - ./api/.env
     command: yarn dev
 
   mongo:
