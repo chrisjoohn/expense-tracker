@@ -3,6 +3,9 @@
 up:
 	docker-compose up -d
 
+rebuild:
+	docker-compose up -d --build
+
 api-logs:
 	docker-compose logs -f api
 
