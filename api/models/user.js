@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 
 const SALT = 10;
 
@@ -63,6 +63,6 @@ UserSchema.methods.comparePassword = function (inputPW, cb) {
   });
 };
 
-const UserModel = mongoose.Model("User", UserSchema);
+const UserModel = mongoose.model("User", UserSchema);
 
 module.exports = UserModel;
