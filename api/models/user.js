@@ -4,7 +4,7 @@ const bcrypt = require("bcryptjs");
 const SALT = 10;
 
 const VerifyCodeModel = require("./verifyCode");
-const Aux = require('../helpers/aux');
+const Aux = require("../helpers/aux");
 
 const UserSchema = new mongoose.Schema({
   firstName: {
@@ -18,6 +18,7 @@ const UserSchema = new mongoose.Schema({
   email: {
     type: String,
     required: [true, "Email is required"],
+    unique: true,
   },
   password: {
     type: String,

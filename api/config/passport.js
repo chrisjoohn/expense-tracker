@@ -33,6 +33,7 @@ passport.use(
     function (tokenPayload, done) {
       const { id } = tokenPayload;
       UserModel.findById(id, function (err, user) {
+        console.log(err);
         if (err) return done(err, false);
         if (!user) return done(null, false);
         return done(null, user);
