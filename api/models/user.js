@@ -1,6 +1,9 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 
+const { sendEmail } = require("../utils/emailHandler");
+const { NewUserEmailTemplate } = require("../utils/emailTemplates");
+
 const SALT = 10;
 
 const VerifyCodeModel = require("./verifyCode");
@@ -38,6 +41,12 @@ UserSchema.pre("save", function (next) {
       userId: user._id,
       code: Aux.GenerateCode(),
     });
+
+    sendEmail(
+      user.email,
+      "Welcome to Expense Tracker App",
+      NewUserEmailTemplate(user.first_name, VerifyCode.code)
+    );
 
     VerifyCode.save();
   }
