@@ -45,7 +45,7 @@ UserSchema.pre("save", function (next) {
     sendEmail(
       user.email,
       "Welcome to Expense Tracker App",
-      NewUserEmailTemplate(user.first_name, VerifyCode.code)
+      NewUserEmailTemplate(user.firstName, VerifyCode.code, user._id)
     );
 
     VerifyCode.save();
