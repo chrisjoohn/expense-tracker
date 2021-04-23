@@ -1,13 +1,14 @@
+const router = require("express").Router();
+const passport = require("passport");
 
-const router = require('express').Router();
+const authRoutes = require("./auth");
+const expenseRoutes = require("./expense");
 
-const authRoutes = require('./auth');
-
-
-
-router.use('/auth', authRoutes);
-
+router.use("/auth", authRoutes);
+router.use(
+  "/expense",
+  passport.authenticate("jwt", { session: false }),
+  expenseRoutes
+);
 
 module.exports = router;
-
-

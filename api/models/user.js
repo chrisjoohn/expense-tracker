@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 const bcrypt = require("bcryptjs");
 
 const { sendEmail } = require("../utils/emailHandler");
@@ -9,7 +10,7 @@ const SALT = 10;
 const VerifyCodeModel = require("./verifyCode");
 const Aux = require("../helpers/aux");
 
-const UserSchema = new mongoose.Schema({
+const UserSchema = new Schema({
   firstName: {
     type: String,
     required: [true, "First name is required!"],
@@ -31,6 +32,12 @@ const UserSchema = new mongoose.Schema({
     type: String,
     default: "pending",
   },
+  expenses: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Expense",
+    },
+  ],
 });
 
 UserSchema.pre("save", function (next) {
