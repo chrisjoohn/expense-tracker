@@ -15,3 +15,6 @@ db-logs:
 
 access-api-sh:
 	docker-compose exec api sh
+
+access-ui-sh:
+	docker-compose exec ui sh
