@@ -1,4 +1,5 @@
 const ExpenseModel = require("../models/expense");
+const moment = require("moment");
 
 module.exports = {
   create: async (req, res) => {
@@ -53,9 +54,37 @@ module.exports = {
   },
 
   find: async (req, res) => {
+    const { dateFrom, dateTo } = req.body;
     try {
       const expenses = await ExpenseModel.find({ userID: req.user._id }).exec();
-      res.json(expenses);
+
+      if (
+        dateFrom &&
+        dateTo &&
+        moment(dateFrom).isSameOrBefore(moment(dateTo), "day")
+      ) {
+        return res.json(
+          expenses.filter((expense) => {
+            return (
+              moment(expense.dateUpdated).isSameOrAfter(
+                moment(dateFrom),
+                "day"
+              ) &&
+              moment(expense.dateUpdated).isSameOrBefore(moment(dateTo), "day")
+            );
+          })
+        );
+      }
+
+      /*
+       * Return expenses with on the same month by default
+       */
+
+      res.json(
+        expenses.filter((expense) => {
+          return moment(expense.dateUpdated).isSame(moment(), "month");
+        })
+      );
     } catch (err) {
       console.log(err);
     }
