@@ -31,6 +31,10 @@ module.exports = {
         { new: true }
       ).exec();
 
+      if (!updatedExpense) {
+        return res.status(400).json({ message: "not found!" });
+      }
+
       res.json(updatedExpense);
     } catch (err) {
       return res.status(400).json(err);
@@ -38,12 +42,14 @@ module.exports = {
   },
 
   delete: async (req, res) => {
-    try{
-
-    }catch(err){
+    const { expenseId } = req.params;
+    try {
+      let deletedExpense = await ExpenseModel.findByIdAndDelete(expenseId);
+      return res.json({ id: deletedExpense._id });
+    } catch (err) {
       console.log(err);
       return res.status(400).json(err);
-    };
+    }
   },
 
   find: async (req, res) => {
