@@ -1,0 +1,33 @@
+.center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.bg-green {
+  background-color: #00bfa6;
+}
+
+.text-green{
+  color: #00bfa6;
+}
+
+.auth-text-sm {
+  font-size: 18px;
+  font-weight: 300;
+}
+
+.auth-text-lg {
+  font-size: 36px;
+}
+
+.public-container {
+  background-image: url("../images/public_background.png");
+}
+
+label{
+  font-size: 12px;
+}
