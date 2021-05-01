@@ -8,10 +8,10 @@
 }
 
 .bg-green {
-  background-color: #00bfa6;
+  background-color: #00bfa6 !important;
 }
 
-.text-green{
+.text-green {
   color: #00bfa6;
 }
 
@@ -28,6 +28,6 @@
   background-image: url("../images/public_background.png");
 }
 
-label{
+label {
   font-size: 12px;
 }
