@@ -1,4 +1,6 @@
-const Verify = (props) => {
+import { Link } from "react-router-dom";
+
+const Verify = () => {
   return (
     <div
       className="bg-light center d-flex justify-content-center align-items-center"
@@ -6,17 +8,19 @@ const Verify = (props) => {
     >
       <div className="text-center">
         {/*
-          * TO DO
+          * to do
 
-            ADD  GIF HERE
+            add  gif here
 
         */}
-        <h2 className="text-green">Just one more.</h2>
+        <h2 className="text-green">Hooray!</h2>
         <span className="d-block auth-text-sm">
-          We have sent a verification link to your email:{" "}
-          <span className="font-weight-bold">test@user.com</span>
-          <span className="font-weight-bold"></span>
+          You have successfully verified your account!
         </span>
+        <br />
+        <Link className="btn bg-green px-5 text-white" to="/login">
+          Login to your account
+        </Link>
       </div>
     </div>
   );

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 const RegisterForm = (props) => {
   const SubmitHandler = (e) => {
     e.preventDefault();
-    props.history.push("/register/verify");
+    props.history.push("/register/success");
   };
 
   return (

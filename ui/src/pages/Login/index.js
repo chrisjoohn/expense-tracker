@@ -1,7 +1,12 @@
 import { Link } from "react-router-dom";
 import PublicContainer from "components/Containers/PublicContainer";
 
-const Login = () => {
+const Login = (props) => {
+  const SubmitHandler = (e) => {
+    e.preventDefault();
+    props.history.push("/");
+  };
+
   return (
     <PublicContainer>
       <div
@@ -33,7 +38,7 @@ const Login = () => {
               Sign in to Budget Tracker
             </h3>
             <div className="mt-4">
-              <form>
+              <form onSubmit={SubmitHandler}>
                 <div className="form-group">
                   <label>Email</label>
                   <input
