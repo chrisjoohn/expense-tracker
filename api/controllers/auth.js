@@ -100,4 +100,10 @@ module.exports = {
 
     res.json({ message: "ok" });
   },
+
+  me: async (req, res) => {
+    let user = await UserModel.findById(req.user._id).exec();
+
+    return res.json(user);
+  },
 };

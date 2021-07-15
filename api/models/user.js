@@ -70,6 +70,7 @@ UserSchema.pre("save", function (next) {
 UserSchema.methods.toJSON = function () {
   let obj = this.toObject();
   delete obj.password;
+  delete obj.expenses;
   return obj;
 };
 
