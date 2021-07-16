@@ -19,3 +19,13 @@ export const RegisterSuccess = (payload) => ({
   type: actionTypes.REGISTER_SUCCESS,
   payload,
 });
+
+export const GetUserDetailRequest = (payload) => ({
+  type: actionTypes.GET_USER_DETAILS_REQUEST,
+  payload,
+});
+
+export const GetUserDetailSuccess = (payload) => ({
+  type: actionTypes.GET_USER_DETAILS_SUCCESS,
+  payload,
+});

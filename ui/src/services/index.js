@@ -22,7 +22,7 @@ const request = {
 
 export const setAuthHeaderToken = () => {
   let auth_token = localStorage.getItem("auth_token");
-  api.defaults.headers.common["Authorization"] = `Token ${auth_token}`;
+  api.defaults.headers.common["Authorization"] = `Bearer ${auth_token}`;
 };
 
 export const unsetAuthHeaderToken = () => {
