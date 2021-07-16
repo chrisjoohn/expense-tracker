@@ -31,3 +31,15 @@
 label {
   font-size: 12px;
 }
+
+.centered {
+  position: absolute;
+  left: 45%;
+  top:40%;
+
+  .centered-child { 
+    position: relative;
+    left: -50%;
+    top: -50%;
+  }
+}
