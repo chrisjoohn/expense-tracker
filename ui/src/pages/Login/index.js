@@ -1,10 +1,30 @@
 import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { useState } from "react";
+
+import { LoginRequest } from "store/actionCreators/auth";
+
 import PublicContainer from "components/Containers/PublicContainer";
 
 const Login = (props) => {
-  const SubmitHandler = (e) => {
-    e.preventDefault();
-    props.history.push("/");
+  const { register, handleSubmit } = useForm();
+  const [submitting, setSubmitting] = useState(false);
+
+  const dispatch = useDispatch();
+
+  const SubmitHandler = (data) => {
+    new Promise((resolve, reject) => {
+      setSubmitting(true);
+      dispatch(LoginRequest({ resolve, reject, data }));
+    })
+      .then(() => {
+        props.history.push("/");
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => setSubmitting(false));
   };
 
   return (
@@ -38,13 +58,15 @@ const Login = (props) => {
               Sign in to Budget Tracker
             </h3>
             <div className="mt-4">
-              <form onSubmit={SubmitHandler}>
+              <form onSubmit={handleSubmit(SubmitHandler)}>
                 <div className="form-group">
                   <label>Email</label>
                   <input
                     type="email"
                     placeholder="Email"
                     className="form-control"
+                    {...register("email", { required: true })}
+                    required
                   />
                 </div>
                 <div className="form-group">
@@ -53,12 +75,15 @@ const Login = (props) => {
                     type="password"
                     placeholder="Password"
                     className="form-control"
+                    {...register("password", { required: true })}
+                    required
                   />
                 </div>
                 <div className="text-center">
                   <button
                     type="submit"
                     className="btn text-white px-5 bg-green"
+                    disabled={submitting}
                   >
                     Sign In
                   </button>
