@@ -11,7 +11,7 @@ router.post(
   AuthController.login
 );
 
-router.get("/resend-verify-email", AuthController.resendVerifyEmail);
+router.post("/resend-verify-email", AuthController.resendVerifyEmail);
 router.get("/verify-email/:userId/:verifyCode", AuthController.verifyEmail);
 
 router.get(
