@@ -33,26 +33,41 @@ module.exports = {
     const { verifyCode, userId } = req.params;
 
     //Find the code associated with the userID then delete existing code
-    VerifyCodeModel.findOneAndDelete({ code: verifyCode, userId }, function (
-      err,
-      match
-    ) {
-      if (err) {
-        return res.status(400).json({ message: "Bad Request" });
+    VerifyCodeModel.findOneAndDelete(
+      { code: verifyCode, userId },
+      async function (err, match) {
+        if (err) {
+          return res.status(400).json({ message: "Bad Request" });
+        }
+
+        if (!match) {
+          res.redirect(
+            `${process.env.REACT_APP}/register/verify?success=false`
+          );
+          //return res.status(400).json({ message: "Code Expired" });
+        }
+
+        //Update the user status
+        UserModel.findByIdAndUpdate(userId, {
+          status: "verified",
+        }).exec();
+
+        let user = await UserModel.findById(userId).exec();
+
+        let token = jwt.sign({ id: user._id }, TOKEN_SECRET);
+
+        res.redirect(
+          `${process.env.REACT_APP}/register/verify?success=true&t=${token}`
+        );
+        /*
+        res.json({
+          status: 200,
+          message: "Email Verified!",
+          token,
+        });
+        */
       }
-
-      if (!match) {
-        return res.status(400).json({ message: "Code Expired" });
-      }
-
-      //Update the user status
-      UserModel.findByIdAndUpdate(userId, { status: "verified" }).exec();
-
-      res.json({
-        status: 200,
-        message: "Email Verified!",
-      });
-    });
+    );
   },
 
   resendVerifyEmail: async (req, res) => {
