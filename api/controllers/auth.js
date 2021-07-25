@@ -7,7 +7,7 @@ const { sendEmail } = require("../utils/emailHandler");
 const { GenerateCode } = require("../helpers/aux");
 const { ResendVerifyCodeEmailTemplate } = require("../utils/emailTemplates");
 
-const TOKEN_SECRET = "TOKEN_SECRET_KEY";
+const TOKEN_SECRET = process.env.TOKEN_SECRET;
 
 module.exports = {
   register: async (req, res) => {
