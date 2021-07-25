@@ -1,9 +1,39 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useForm } from "react-hook-form";
+import classNames from "classnames";
+
+import { RegisterRequest } from "store/actionCreators/auth";
 
 const RegisterForm = (props) => {
-  const SubmitHandler = (e) => {
-    e.preventDefault();
-    props.history.push("/register/success");
+  const dispatch = useDispatch();
+  const [errors, setErrors] = useState({});
+
+  const { register, handleSubmit } = useForm();
+
+  const SubmitHandler = (data) => {
+    const { password, password1 } = data;
+    setErrors({});
+    if (password !== password1) {
+      setErrors({
+        ...errors,
+        password: "Password does not match",
+        password1: "Password does not match",
+      });
+
+      return;
+    }
+
+    new Promise((resolve, reject) => {
+      dispatch(RegisterRequest({ resolve, reject, data }));
+    })
+      .then(() => {
+        props.history.push("/register/success");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -15,7 +45,7 @@ const RegisterForm = (props) => {
         <div>
           <h3 className="text-green auth-text-lg">Create an Account</h3>
           <div className="mt-4 text-left">
-            <form onSubmit={SubmitHandler}>
+            <form onSubmit={handleSubmit(SubmitHandler)}>
               <div className="row">
                 <div className="col">
                   <label>First name</label>
@@ -23,6 +53,8 @@ const RegisterForm = (props) => {
                     type="text"
                     placeholder="First name"
                     className="form-control"
+                    {...register("firstName", { required: true })}
+                    required
                   />
                 </div>
                 <div className="col">
@@ -31,6 +63,8 @@ const RegisterForm = (props) => {
                     type="text"
                     placeholder="Last name"
                     className="form-control"
+                    {...register("lastName", { required: true })}
+                    required
                   />
                 </div>
               </div>
@@ -39,19 +73,38 @@ const RegisterForm = (props) => {
                 type="email"
                 placeholder="Email"
                 className="form-control"
+                {...register("email", { required: true })}
+                required
               />
               <label>Password</label>
               <input
                 type="password"
                 placeholder="Password"
-                className="form-control"
+                className={classNames(
+                  "form-control",
+                  errors?.password && "border border-danger text-danger"
+                )}
+                {...register("password", { required: true })}
+                required
               />
+              {errors?.password && (
+                <small className="text-danger">{errors.password}</small>
+              )}
+              <br />
               <label>Confirm Password</label>
               <input
                 type="password"
                 placeholder="Confirm password"
-                className="form-control"
+                className={classNames(
+                  "form-control",
+                  errors?.password1 && "border border-danger text-danger"
+                )}
+                {...register("password1", { require: true })}
+                required
               />
+              {errors?.password1 && (
+                <small className="text-danger">{errors.password1}</small>
+              )}
               <div className="text-center">
                 <button
                   className="btn  bg-green mt-4 text-white px-5"
