@@ -29,3 +29,8 @@ export const GetUserDetailSuccess = (payload) => ({
   type: actionTypes.GET_USER_DETAILS_SUCCESS,
   payload,
 });
+
+export const ResendVerifyEmail = (payload) => ({
+  type: actionTypes.RESEND_VERIFY_EMAIL,
+  payload,
+});

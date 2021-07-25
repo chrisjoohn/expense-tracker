@@ -1,10 +1,14 @@
 import { Redirect } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import Lottie from "react-lottie";
 
 import animationData from "lotties/EmailSuccessAnimation.json";
 
+import { ResendVerifyEmail } from "store/actionCreators/auth";
+
 const RegisterSuccess = (props) => {
   const userEmail = localStorage.getItem("toVerifyEmail");
+  const dispatch = useDispatch();
 
   const defaultOptions = {
     loop: true,
@@ -21,7 +25,17 @@ const RegisterSuccess = (props) => {
 
   const ResendVerifyLinkhandler = (e) => {
     e.preventDefault();
-    alert("This part is under construction");
+    new Promise((resolve, reject) => {
+      dispatch(
+        ResendVerifyEmail({ resolve, reject, data: { email: userEmail } })
+      );
+    })
+      .then(() => {
+        alert("Successfully sent an an email to " + userEmail);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -36,14 +50,6 @@ const RegisterSuccess = (props) => {
           width={200}
           autoplay={true}
         />
-        {/*
-
-<iframe src="https://embed.lottiefiles.com/animation/35681"></iframe>
-          * TO DO
-
-            ADD  GIF HERE
-
-        */}
         <h2 className="text-green">Just one more.</h2>
         <span className="d-block auth-text-sm">
           We have sent a verification link to your email:{" "}

@@ -52,10 +52,22 @@ function* RegisterFlow(action) {
   }
 }
 
+function* ResendVerifyEmailFlow(action) {
+  const { resolve, reject, data } = action.payload;
+  try {
+    yield call(AuthService.ResendVerifyEmailService, data);
+
+    resolve();
+  } catch (err) {
+    reject(err);
+  }
+}
+
 function* ActionWatcher() {
   yield takeLatest(actionTypes.LOGIN_REQUEST, LoginFlow);
   yield takeLatest(actionTypes.GET_USER_DETAILS_REQUEST, GetUserDetailsFlow);
   yield takeLatest(actionTypes.REGISTER_REQUEST, RegisterFlow);
+  yield takeLatest(actionTypes.RESEND_VERIFY_EMAIL, ResendVerifyEmailFlow);
 }
 
 function* Watcher() {
