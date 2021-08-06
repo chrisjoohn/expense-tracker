@@ -6,21 +6,41 @@ const AuthController = require("../controllers/auth");
 /**
  * @swagger
  * definitions:
- *  User:
+ *  UserModel:
  *    required:
  *      - firstName
  *      - lastName
  *      - email
  *      - password
  *    properties:
- *      firstName: 
+ *      firstName:
  *        type: string
- *      lastName: 
+ *      lastName:
  *        type: string
- *      email: 
+ *      email:
  *        type: string
- *      password: 
- *        type: string
+ *
+ *  User:
+ *    allOf:
+ *      - $ref: "#/definitions/UserModel"
+ *      - type: object
+ *        properties:
+ *          password:
+ *            type: string
+ *            required: true
+ *
+ *
+ *  UserDetails:
+ *    allOf:
+ *      - $ref: "#/definitions/UserModel"
+ *      - type: object
+ *        properties:
+ *          _id:
+ *            type: string
+ *          status:
+ *            type: string
+ *
+ *    
  *
  *  Login:
  *    required:
@@ -63,7 +83,6 @@ const AuthController = require("../controllers/auth");
  */
 router.post("/register", AuthController.register);
 
-
 /**
  * @swagger
  * /auth/login:
@@ -94,9 +113,67 @@ router.post(
   AuthController.login
 );
 
+/**
+ * @swagger
+ * /auth/resend-verify-email:
+ *  post:
+ *    description: Resend Verification Email
+ *    tags:
+ *      - Auth
+ *    consumes:
+ *      - application/json
+ *    parameters:
+ *      - in: body
+ *        schema:
+ *          type: object
+ *          required:
+ *            - email
+ *          properties:
+ *            email:
+ *              type: string
+ *    responses:
+ *      200:
+ *        description: Success!
+ *
+ */
+
 router.post("/resend-verify-email", AuthController.resendVerifyEmail);
+
+/**
+ * @swagger
+ * /auth/verify-email/{userId}/{verifyCode}:
+ *  get:
+ *    description: Verify user email
+ *    tags:
+ *      - Auth
+ *    consumes:
+ *      - application/json
+ *
+ *    responses:
+ *      200:
+ *        description:  Will redirect user to the React app where the user will be handled properly
+ *      400:
+ *        description: Bad request
+*/
 router.get("/verify-email/:userId/:verifyCode", AuthController.verifyEmail);
 
+
+/**
+ * @swagger
+ * /auth/me:
+ *  get:
+ *    description: Get User details
+ *    tags:
+ *      - Auth
+ *
+ *    responses:
+ *      200:
+ *        description: User details
+ *        schema:
+ *          type: object
+ *          $ref: '#/definitions/UserDetails'
+ *
+*/
 router.get(
   "/me",
   passport.authenticate("jwt", { session: false }),
