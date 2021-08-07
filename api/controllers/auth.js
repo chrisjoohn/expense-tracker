@@ -93,15 +93,19 @@ module.exports = {
 
       newVerifyCode.save();
 
-      sendEmail(
-        email,
-        "Verification code",
-        ResendVerifyCodeEmailTemplate(
-          user.firstName,
-          newVerifyCode.code,
-          user._id
-        )
-      );
+      try {
+        sendEmail(
+          email,
+          "Verification code",
+          ResendVerifyCodeEmailTemplate(
+            user.firstName,
+            newVerifyCode.code,
+            user._id
+          )
+        );
+      } catch (err) {
+        return res.status(500).json(err);
+      }
       res.json({ message: "ok" });
       return;
     }
