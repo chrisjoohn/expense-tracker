@@ -18,3 +18,6 @@ access-api-sh:
 
 access-ui-sh:
 	docker-compose exec ui sh
+
+api-test:
+	docker-compose exec api yarn test

@@ -24,3 +24,5 @@ app.use("/api/v1/docs", swaggerUi.serve, swaggerUi.setup(v1Docs));
 const PORT = process.env.API_PORT || 8080;
 
 app.listen(PORT, () => console.log(`Server running on port: ${PORT}...`));
+
+module.exports = app; // To be used for unit testing
