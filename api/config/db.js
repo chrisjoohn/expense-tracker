@@ -12,8 +12,9 @@ mongoose.connect(`mongodb://${DB_HOST}:${DB_PORT}/${DB_NAME}`, {
 
 const db = mongoose.connection;
 
-db.on("error", () => {
+db.on("error", (err) => {
   console.log("ERROR in database connection!");
+  throw err;
 });
 
 db.on("connected", function () {
