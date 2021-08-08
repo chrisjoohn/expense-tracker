@@ -1,19 +1,10 @@
-process.env.TEST_ENV = "enabled";
-process.env.API_PORT = 8081;
-process.env.DB_NAME = "expense_tracker_db_test";
-process.env.SENDGRID_API_KEY = "";
-
-const chaiHttp = require("chai-http");
-const chai = require("chai");
+const { server, chai } = require("./setup");
 const { expect, assert, should } = chai;
-const server = require("../../server");
 
 const UserModel = require("../../models/user");
 const VerifyCodeModel = require("../../models/verifyCode");
 
 const BASE_URL = "/api/v1/auth";
-
-chai.use(chaiHttp);
 
 const API = {
   post: (url, payload, cb) =>
@@ -21,7 +12,7 @@ const API = {
   get: (url, cb) => chai.request(server).get(url).end(cb),
 };
 
-describe("Auth Controller Unit Tests", () => {
+describe("Auth Controller Tests", () => {
   const userDetails = {
     firstName: "Test",
     lastName: "User",
