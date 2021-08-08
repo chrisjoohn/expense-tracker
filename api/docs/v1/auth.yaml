@@ -1,0 +1,118 @@
+definitions:
+  UserModel:
+    required:
+      - firstName
+      - lastName
+      - email
+      - password
+    properties:
+      firstName:
+        type: string
+      lastName:
+        type: string
+      email:
+        type: string
+
+  User:
+    allOf:
+      - $ref: "#/definitions/UserModel"
+      - type: object
+        properties:
+          password:
+            type: string
+            required: true
+
+  UserDetails:
+    allOf:
+      - $ref: "#/definitions/UserModel"
+      - type: object
+        properties:
+          _id:
+            type: string
+          status:
+            type: string
+
+  Login:
+    required:
+      - email
+      - password
+
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+
+  LoginSuccess:
+    properties:
+      id:
+        type: string
+      token:
+        type: string
+
+paths:
+  /auth/register:
+    post:
+      description: Register a user
+      tags:
+        - Auth
+
+      parameters:
+        - in: body
+          properties:
+          schema:
+            type: object
+            $ref: "#/definitions/User"
+
+      responses:
+        200:
+          description: Success
+
+  /auth/login:
+    post:
+      description: User login
+      tags:
+        - Auth
+
+      parameters:
+        - in: body
+          properties:
+          schema:
+            type: object
+            $ref: "#/definitions/Login"
+
+      responses:
+        200:
+          description: Login success
+          schema:
+            type: object
+            $ref: "#/definitions/LoginSuccess"
+        401:
+          description: Unauthorized
+
+  /auth/verify-email/{userId}/{verifyCode}:
+    get:
+      description: Verify user email
+      tags:
+        - Auth
+      consumes:
+        - application/json
+
+      responses:
+        200:
+          description: Will redirect user to the React app where the user will be handled properly
+        400:
+          description: Bad request
+
+  /auth/me:
+    get:
+      description: Get User details
+      tags:
+        - Auth
+
+      responses:
+        200:
+          description: User details
+          schema:
+            type: object
+            $ref: "#/definitions/UserDetails"

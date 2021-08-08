@@ -13,7 +13,7 @@ const options = {
       },
     },
   },
-  apis: ["./routes/*.js"], // Path of files here should be like you are in root dir
+  apis: ["./routes/*.js", "./docs/v1/*.yaml"], // Path of files here should be like you are in root dir
 };
 
 const specs = swaggerJsDoc(options);
