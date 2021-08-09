@@ -1,0 +1,129 @@
+definitions:
+  ExpenseModel:
+    required:
+      - title
+      - amount
+
+    properties:
+      title:
+        type: string
+      amount:
+        type: number
+    example:
+      title: "Sample Expense"
+      amount: 100
+
+  ExpenseResponse:
+    allOf:
+      - $ref: "#/definitions/ExpenseModel"
+      - type: object
+        properties:
+          _id:
+            type: string
+          dateUpdated:
+            type: string
+          dateCreated:
+            type: string
+
+  ArrayOfExpenseResponse:
+    type: array
+    items:
+      $ref: "#/definitions/ExpenseResponse"
+
+paths:
+  /expense:
+    post:
+      description: Create Expense
+      tags:
+        - Expense
+      parameters:
+        - in: body
+          properties:
+          schema:
+            type: object
+            $ref: "#/definitions/ExpenseModel"
+      responses:
+        200:
+          description: Create Success
+          schema:
+            type: object
+            $ref: "#/definitions/ExpenseResponse"
+        400:
+          description: Bad request
+
+    get:
+      description: Get All Expenses
+      tags:
+        - Expense
+      responses:
+        200:
+          type: array
+          items:
+            $ref: "#/definitions/ExpenseResponse"
+        # Add example response here
+
+  /expense/{expenseID}:
+    get:
+      description: Get specific expense
+      tags:
+        - Expense
+
+      parameters:
+        - in: path
+          name: expenseID
+          schema:
+            type: string
+      responses:
+        200:
+          schema:
+            type: object
+            $ref: "#/definitions/ExpenseResponse"
+
+        400:
+          description: "Bad request"
+
+    patch:
+      description: Update specific expense
+      tags:
+        - Expense
+
+      parameters:
+        - in: path
+          name: expenseID
+          schema:
+            type: string
+        - in: body
+          properties:
+          schema:
+            type: object
+            $ref: "#/definitions/ExpenseModel"
+      responses:
+        200:
+          description: "Expense updated"
+          schema:
+            type: object
+            $ref: "#/definitions/ExpenseResponse"
+        400:
+          description: "Bad request"
+
+    delete:
+      description: Delete specific expense
+      tags:
+        - Expense
+
+      parameters:
+        - in: path
+          name: expenseID
+          schema:
+            type: string
+      responses:
+        200:
+          description: "Expense deleted"
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+
+        400:
+          description: "Bad request"
