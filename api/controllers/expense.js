@@ -15,7 +15,6 @@ module.exports = {
 
       return res.json(savedExpense);
     } catch (err) {
-      console.log(err);
       return res.status(400).json(err);
     }
   },
@@ -48,7 +47,6 @@ module.exports = {
       let deletedExpense = await ExpenseModel.findByIdAndDelete(expenseId);
       return res.json({ id: deletedExpense._id });
     } catch (err) {
-      console.log(err);
       return res.status(400).json(err);
     }
   },
@@ -76,9 +74,7 @@ module.exports = {
         );
       }
 
-      /*
-       * Return expenses with on the same month by default
-       */
+      // Return expenses with on the same month by default
 
       res.json(
         expenses.filter((expense) => {
@@ -86,7 +82,7 @@ module.exports = {
         })
       );
     } catch (err) {
-      console.log(err);
+      res.status(400).json(err);
     }
   },
 
@@ -106,7 +102,6 @@ module.exports = {
 
       return res.json(expense);
     } catch (err) {
-      console.log(err);
       return res.status(400).json(err);
     }
   },
