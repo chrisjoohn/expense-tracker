@@ -1,5 +1,6 @@
 import styled from "styled-components";
-import { PieChart, Pie, Legend, Tooltip, ResponsiveContainer } from "recharts";
+import { PieChart, Pie, Tooltip } from "recharts";
+import DatePicker from "components/DatePicker";
 
 import ExpenseContainer from "components/Expenses/ExpenseContainer";
 
@@ -44,6 +45,7 @@ const Dashboard = (props) => {
   return (
     <DashboardWrapper>
       <ChartWrapper>
+        <DatePicker />
         <ChartDetail>
           <Span bold size={35}>
             {" "}
@@ -55,15 +57,15 @@ const Dashboard = (props) => {
           </Span>
           <Span>Total Expenses Paid</Span>
         </ChartDetail>
-        <PieChart width={500} height={500}>
+        <PieChart width={400} height={400}>
           <Tooltip />
           <Pie
             dataKey="value"
             data={data}
             cx="50%"
             cy="50%"
-            innerRadius={180}
-            outerRadius={220}
+            innerRadius={130}
+            outerRadius={170}
             fill="#8884d8"
           />
         </PieChart>

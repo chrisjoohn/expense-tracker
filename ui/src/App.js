@@ -10,6 +10,8 @@ import PrivateRoute from "components/Routes/PrivateRoute";
 import PublicRoute from "components/Routes/PublicRoute";
 
 import "bootstrap/dist/css/bootstrap.min.css";
+import "react-date-range/dist/styles.css";
+import "react-date-range/dist/theme/default.css";
 
 const App = () => {
   useEffect(() => {
