@@ -1,6 +1,11 @@
 import styled from "styled-components";
 import { PieChart, Pie, Tooltip } from "recharts";
+import { useState } from "react";
+
+import { MenuIcon } from "icons";
+
 import DatePicker from "components/DatePicker";
+import Sidebar from "components/Sidebar";
 
 import ExpenseContainer from "components/Expenses/ExpenseContainer";
 
@@ -49,9 +54,27 @@ const data = [
 ];
 
 const Dashboard = (props) => {
+  const [showSidebar, setShowSidebar] = useState(false);
+
   return (
     <DashboardWrapper>
-      <H1>Dashboard</H1>
+      <Sidebar
+        hideSidebar={() => setShowSidebar(false)}
+        hidden={!showSidebar}
+      />
+      <MenuIcon
+        onClick={() => setShowSidebar(!showSidebar)}
+        className="menu-icon"
+        style={{
+          height: "30px",
+          width: "30px",
+          position: "absolute",
+          top: "40",
+          left: "12%",
+          cursor: "pointer",
+        }}
+      />
+      <H1 className="no-hightlights">Dashboard</H1>
       <ChartWrapper>
         <DatePicker />
         <ChartDetail>
