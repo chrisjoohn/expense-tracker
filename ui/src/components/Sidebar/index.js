@@ -48,6 +48,9 @@ const Sidebar = (props) => {
 
   const logoutClickHandler = (e) => {
     e.preventDefault();
+    hideSidebar();
+    localStorage.removeItem("auth_token");
+    history.push("/login");
   };
 
   const sidebarItemClickHandler = (e, path) => {
