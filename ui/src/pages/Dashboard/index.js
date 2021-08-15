@@ -36,6 +36,13 @@ const Span = styled.span`
   font-size: ${({ size }) => (size ? size : 14) + "px"};
 `;
 
+const H1 = styled.h1`
+  padding-top: 30px;
+  margin-left: 15%;
+  color: #0ca;
+  font-weight: bold;
+`;
+
 const data = [
   { name: "Unpaid Expenses", value: 7000, fill: "#9ed" },
   { name: "Paid Expenses", value: 500, fill: "#0ca" },
@@ -44,6 +51,7 @@ const data = [
 const Dashboard = (props) => {
   return (
     <DashboardWrapper>
+      <H1>Dashboard</H1>
       <ChartWrapper>
         <DatePicker />
         <ChartDetail>
