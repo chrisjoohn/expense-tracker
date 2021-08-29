@@ -25,6 +25,7 @@ const ChartWrapper = styled.div`
   display: flex;
   justify-content: center;
   position: relative;
+  min-height: 25em;
 `;
 
 const ChartDetail = styled.div`
@@ -53,8 +54,22 @@ const data = [
   { name: "Paid Expenses", value: 500, fill: "#0ca" },
 ];
 
+const EmptyContent = styled.div`
+  top: 50%;
+  position: absolute;
+  text-align: center;
+  color: #b4aeae;
+  cursor: pointer;
+`;
+
 const Dashboard = (props) => {
   const [showSidebar, setShowSidebar] = useState(false);
+  let expenses = [null];
+  expenses = [];
+
+  // otherExpenses and fixedExpenses should be computed first from expenses
+  const otherExpenses = 3000;
+  const fixedExpenses = 7000;
 
   return (
     <DashboardWrapper>
@@ -75,31 +90,40 @@ const Dashboard = (props) => {
         }}
       />
       <H1 className="no-hightlights">Dashboard</H1>
+
       <ChartWrapper>
         <DatePicker />
-        <ChartDetail>
-          <Span bold size={35}>
-            {" "}
-            7500
-          </Span>
-          <Span>Total Expenses</Span>
-          <Span bold size={25}>
-            500
-          </Span>
-          <Span>Total Expenses Paid</Span>
-        </ChartDetail>
-        <PieChart width={400} height={400}>
-          <Tooltip />
-          <Pie
-            dataKey="value"
-            data={data}
-            cx="50%"
-            cy="50%"
-            innerRadius={130}
-            outerRadius={170}
-            fill="#8884d8"
-          />
-        </PieChart>
+        {expenses.length ? (
+          <>
+            <ChartDetail>
+              <Span bold size={35}>
+                {" "}
+                {otherExpenses + fixedExpenses}
+              </Span>
+              <Span>Total Expenses</Span>
+              <Span bold size={25}>
+                500
+              </Span>
+              <Span>Total Expenses Paid</Span>
+            </ChartDetail>
+            <PieChart width={400} height={400}>
+              <Tooltip />
+              <Pie
+                dataKey="value"
+                data={data}
+                cx="50%"
+                cy="50%"
+                innerRadius={130}
+                outerRadius={170}
+                fill="#8884d8"
+              />
+            </PieChart>
+          </>
+        ) : (
+          <EmptyContent>
+            <h4>No data to show</h4>
+          </EmptyContent>
+        )}
       </ChartWrapper>
       <ExpenseWrapper>
         <ExpenseContainer title="Fixed Expenses" />

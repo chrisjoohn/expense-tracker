@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 import ExpenseItem from "./ExpenseItem";
+import { PlusCircle } from "icons";
 
 const Wrapper = styled.div`
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -15,7 +16,7 @@ const ExpenseContainerWrapper = styled.div`
   margin-top: 10px;
   padding: 20px;
   max-height: 240px;
-  overflow-y: ${({ isEmpty }) => (!isEmpty && "scroll")};
+  overflow-y: ${({ isEmpty }) => !isEmpty && "scroll"};
   position: relative;
 `;
 
@@ -59,8 +60,13 @@ const ExpenseContainer = (props) => {
           {expenses?.length > 0 ? (
             expenses.map((item) => <ExpenseItem {...item} />)
           ) : (
-            <EmptyContent onClick={() => alert("This part is under construction!")}>
-              <span>Click here to add {title}</span>
+            <EmptyContent
+              onClick={() => alert("This part is under construction!")}
+            >
+              <span style={{ display: "block" }}>
+                Click here to add {title}
+              </span>
+              <PlusCircle style={{ height: "30px" }} />
             </EmptyContent>
           )}
         </ExpenseContainerWrapper>
