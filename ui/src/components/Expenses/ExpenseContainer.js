@@ -15,7 +15,7 @@ const ExpenseContainerWrapper = styled.div`
   margin-top: 10px;
   padding: 20px;
   max-height: 240px;
-  overflow-y: scroll;
+  overflow-y: ${({ isEmpty }) => (!isEmpty && "scroll")};
   position: relative;
 `;
 
@@ -40,28 +40,31 @@ const EmptyContent = styled.div`
   margin-top: 30%;
   text-align: center;
   color: #b4aeae;
+  cursor: pointer;
 `;
 
 const ExpenseContainer = (props) => {
   const { title } = props;
 
   let expenses = [null, null, null, null, null, null, null];
-  //expenses = [];
+  expenses = [];
+
+  const isEmpty = expenses.length === 0;
 
   return (
     <div>
       <TitleContainer>{title}</TitleContainer>
       <Wrapper>
-        <ExpenseContainerWrapper isEmpty={expenses.length === 0}>
+        <ExpenseContainerWrapper isEmpty={isEmpty}>
           {expenses?.length > 0 ? (
             expenses.map((item) => <ExpenseItem {...item} />)
           ) : (
-            <EmptyContent>
-              <span>Click to add {title}</span>
+            <EmptyContent onClick={() => alert("This part is under construction!")}>
+              <span>Click here to add {title}</span>
             </EmptyContent>
           )}
         </ExpenseContainerWrapper>
-        {expenses?.length > 0 && <AddExpenseBtn>Add expense</AddExpenseBtn>}
+        {!isEmpty > 0 && <AddExpenseBtn>Add expense</AddExpenseBtn>}
       </Wrapper>
     </div>
   );
