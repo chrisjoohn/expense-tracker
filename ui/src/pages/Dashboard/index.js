@@ -1,19 +1,24 @@
 import styled from "styled-components";
 import { PieChart, Pie, Tooltip } from "recharts";
 import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { MenuIcon } from "icons";
-
 import DatePicker from "components/DatePicker";
 import Sidebar from "components/Sidebar";
-
 import {
   FixedExpenseContainer,
   OtherExpenseContainer,
 } from "components/Expenses";
 
 import { GetAllExpensesRequest } from "store/actionCreators/expense";
+import { numberWithCommas } from "utils/aux";
+import {
+  DASHBOARD_DATAS,
+  DASHBOARD_COLOR_MAP,
+  DASHBOARD_NAME_MAP,
+  DASHBOARD_VALUE_MAP,
+} from "utils/constants";
 
 const ExpenseWrapper = styled.div`
   display: flex;
@@ -55,11 +60,6 @@ const H1 = styled.h1`
   font-weight: bold;
 `;
 
-const data = [
-  { name: "Unpaid Expenses", value: 7000, fill: "#9ed" },
-  { name: "Paid Expenses", value: 500, fill: "#0ca" },
-];
-
 const EmptyContent = styled.div`
   top: 50%;
   position: absolute;
@@ -69,19 +69,40 @@ const EmptyContent = styled.div`
 `;
 
 const Dashboard = (props) => {
-  const [showSidebar, setShowSidebar] = useState(false);
-  let expenses = [null];
-  expenses = [];
-
-  // otherExpenses and fixedExpenses should be computed first from expenses
-  const otherExpenses = 3000;
-  const fixedExpenses = 7000;
+  const { list: expenses } = useSelector((state) => state.expense);
 
   const dispatch = useDispatch();
+
+  const [showSidebar, setShowSidebar] = useState(false);
+  const [totalExpenses, setTotalExpenses] = useState({
+    total: 0,
+    paid: 0,
+  });
+  const [chartData, setChartData] = useState([]);
 
   useEffect(() => {
     dispatch(GetAllExpensesRequest());
   }, []);
+
+  useEffect(() => {
+    const total = [...expenses].reduce((acc, prev) => acc + prev.amount, 0);
+    const paid = [...expenses]
+      .filter((expense) => expense.isPaid)
+      .reduce((acc, prev) => acc + prev.amount, 0);
+
+    setTotalExpenses({
+      total,
+      paid,
+    });
+
+    setChartData(
+      DASHBOARD_DATAS.map((DATA) => ({
+        name: DASHBOARD_NAME_MAP[DATA],
+        fill: DASHBOARD_COLOR_MAP[DATA],
+        value: DASHBOARD_VALUE_MAP(total, paid)[DATA],
+      }))
+    );
+  }, [expenses]);
 
   return (
     <DashboardWrapper>
@@ -102,19 +123,17 @@ const Dashboard = (props) => {
         }}
       />
       <H1 className="no-hightlights">Dashboard</H1>
-
       <ChartWrapper>
         <DatePicker />
         {expenses.length ? (
           <>
             <ChartDetail>
               <Span bold size={35}>
-                {" "}
-                {otherExpenses + fixedExpenses}
+                {numberWithCommas(totalExpenses.total)}
               </Span>
               <Span>Total Expenses</Span>
               <Span bold size={25}>
-                500
+                {numberWithCommas(totalExpenses.paid)}
               </Span>
               <Span>Total Expenses Paid</Span>
             </ChartDetail>
@@ -122,7 +141,7 @@ const Dashboard = (props) => {
               <Tooltip />
               <Pie
                 dataKey="value"
-                data={data}
+                data={chartData}
                 cx="50%"
                 cy="50%"
                 innerRadius={130}
