@@ -19,6 +19,10 @@ const ExpenseSchema = new mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
+  isPaid: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const ExpenseModel = new mongoose.model("Expense", ExpenseSchema);
