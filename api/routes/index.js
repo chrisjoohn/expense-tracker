@@ -14,7 +14,7 @@ router.get("/api-docs", swaggerUi.setup(specs));
 
 router.use("/auth", authRoutes);
 router.use(
-  "/expense",
+  "/expenses",
   passport.authenticate("jwt", { session: false }),
   expenseRoutes
 );
