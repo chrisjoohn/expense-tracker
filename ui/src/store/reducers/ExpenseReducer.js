@@ -19,6 +19,19 @@ export default (state = initialState, action) => {
         list: [...state.list, action.payload],
       };
 
+    case actionTypes.UPDATE_EXPENSE_SUCCESS:
+      return {
+        ...state,
+        list: [
+          ...state.list.map((item) => {
+            if (item._id === action.payload._id) {
+              return action.payload;
+            }
+            return item;
+          }),
+        ],
+      };
+
     default:
       return state;
   }

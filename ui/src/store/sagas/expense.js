@@ -28,9 +28,19 @@ function* CreateExpenseFlow(action) {
   }
 }
 
+function* UpdateExpenseFlow(action) {
+  const { data, id } = action.payload;
+
+  try {
+    let updatedExpense = yield call(services.UpdateExpenseService, id, data);
+    yield put(actionCreators.UpdateExpenseSuccess(updatedExpense));
+  } catch (err) {}
+}
+
 function* ActionWatcher() {
   yield takeLatest(actionTypes.GET_ALL_EXPENSES_REQUEST, GetAllExpensesFlow);
   yield takeLatest(actionTypes.CREATE_EXPENSE_REQUEST, CreateExpenseFlow);
+  yield takeLatest(actionTypes.UPDATE_EXPENSE_REQUEST, UpdateExpenseFlow);
 }
 
 function* Watcher() {

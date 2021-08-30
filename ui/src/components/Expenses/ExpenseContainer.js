@@ -61,7 +61,7 @@ const ExpenseContainer = (props) => {
       <Wrapper>
         <ExpenseContainerWrapper isEmpty={isEmpty}>
           {expenses?.length > 0 ? (
-            expenses.map((item) => <ExpenseItem {...item} />)
+            expenses.map((item) => <ExpenseItem {...item} key={item._id} />)
           ) : (
             <EmptyContent onClick={() => setShowModal(true)}>
               <span style={{ display: "block" }}>
