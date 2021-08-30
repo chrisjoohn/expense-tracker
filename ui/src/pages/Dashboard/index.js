@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { PieChart, Pie, Tooltip } from "recharts";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 import { MenuIcon } from "icons";
 
@@ -11,6 +12,8 @@ import {
   FixedExpenseContainer,
   OtherExpenseContainer,
 } from "components/Expenses";
+
+import { GetAllExpensesRequest } from "store/actionCreators/expense";
 
 const ExpenseWrapper = styled.div`
   display: flex;
@@ -73,6 +76,12 @@ const Dashboard = (props) => {
   // otherExpenses and fixedExpenses should be computed first from expenses
   const otherExpenses = 3000;
   const fixedExpenses = 7000;
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(GetAllExpensesRequest());
+  }, []);
 
   return (
     <DashboardWrapper>

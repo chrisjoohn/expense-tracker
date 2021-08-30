@@ -48,10 +48,7 @@ const EmptyContent = styled.div`
 
 const ExpenseContainer = (props) => {
   const [showModal, setShowModal] = useState(false);
-  const { title, form: Form } = props;
-
-  let expenses = [null, null, null, null, null, null, null];
-  expenses = [];
+  const { title, form: Form, expenses = [] } = props;
 
   const isEmpty = expenses.length === 0;
 
