@@ -55,7 +55,7 @@ const ExpenseContainer = (props) => {
   return (
     <div>
       <Modal title={title} setShow={setShowModal} show={showModal}>
-        <Form />
+        <Form setShowModal={setShowModal} />
       </Modal>
       <TitleContainer>{title}</TitleContainer>
       <Wrapper>

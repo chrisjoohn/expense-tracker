@@ -13,6 +13,12 @@ export default (state = initialState, action) => {
         list: action.payload,
       };
 
+    case actionTypes.CREATE_EXPENSE_SUCCESS:
+      return {
+        ...state,
+        list: [...state.list, action.payload],
+      };
+
     default:
       return state;
   }
