@@ -37,10 +37,19 @@ function* UpdateExpenseFlow(action) {
   } catch (err) {}
 }
 
+function* DeleteExpenseFlow(action) {
+  const { id } = action.payload;
+  try {
+    let deletedExpense = yield call(services.DeleteExpenseService, id);
+    yield put(actionCreators.DeleteExpenseSuccess(deletedExpense));
+  } catch (err) {}
+}
+
 function* ActionWatcher() {
   yield takeLatest(actionTypes.GET_ALL_EXPENSES_REQUEST, GetAllExpensesFlow);
   yield takeLatest(actionTypes.CREATE_EXPENSE_REQUEST, CreateExpenseFlow);
   yield takeLatest(actionTypes.UPDATE_EXPENSE_REQUEST, UpdateExpenseFlow);
+  yield takeLatest(actionTypes.DELETE_EXPENSE_REQUEST, DeleteExpenseFlow);
 }
 
 function* Watcher() {

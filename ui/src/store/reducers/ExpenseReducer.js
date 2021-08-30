@@ -32,6 +32,16 @@ export default (state = initialState, action) => {
         ],
       };
 
+    case actionTypes.DELETE_EXPENSE_SUCCESS:
+      return {
+        ...state,
+        list: [
+          ...state.list.filter((item) => {
+            return item._id !== action.payload.id;
+          }),
+        ],
+      };
+
     default:
       return state;
   }
