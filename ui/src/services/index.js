@@ -6,7 +6,7 @@ const api = axios.create({
 
 const responseBody = (res) => res.data;
 const errResponse = (err) => {
-  throw err;
+  throw err.response;
 };
 
 const request = {

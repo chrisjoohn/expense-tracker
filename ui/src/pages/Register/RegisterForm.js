@@ -2,15 +2,52 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
-import classNames from "classnames";
+import styled from "styled-components";
 
 import { RegisterRequest } from "store/actionCreators/auth";
+
+const InputFieldError = styled.span`
+  color: red;
+  font-size: 12px;
+`;
+
+const InputField = styled.input`
+  color: ${({ hasError }) => hasError && "red"};
+  border: ${({ hasError }) => hasError && "1px solid red"};
+`;
+
+const InputDiv = styled.div`
+  display: "block";
+`;
+
+const SubmitBtn = styled.button`
+  cursor: ${({ disabled }) => disabled && "not-allowed"};
+`;
+
+const ErrorMessage = (props) => {
+  const { errors, field } = props;
+
+  if (errors[field] && errors[field].type === "required") {
+    return <InputFieldError>This field is required</InputFieldError>;
+  }
+
+  if (errors[field] && errors[field].type === "manual") {
+    return <InputFieldError>{errors[field].message}</InputFieldError>;
+  }
+
+  return null;
+};
 
 const RegisterForm = (props) => {
   const dispatch = useDispatch();
   const [errors, setErrors] = useState({});
 
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors: formErrors, isSubmitting },
+    setError,
+  } = useForm();
 
   const SubmitHandler = (data) => {
     const { password, password1 } = data;
@@ -21,7 +58,6 @@ const RegisterForm = (props) => {
         password: "Password does not match",
         password1: "Password does not match",
       });
-
       return;
     }
 
@@ -32,7 +68,10 @@ const RegisterForm = (props) => {
         props.history.push("/register/success");
       })
       .catch((err) => {
-        console.log(err);
+        const { errors } = err.data;
+        Object.keys(errors).map((key) => {
+          setError(key, { type: "manual", message: errors[key].message });
+        });
       });
   };
 
@@ -49,69 +88,74 @@ const RegisterForm = (props) => {
               <div className="row">
                 <div className="col">
                   <label>First name</label>
-                  <input
+                  <InputField
                     type="text"
                     placeholder="First name"
                     className="form-control"
                     {...register("firstName", { required: true })}
-                    required
+                    hasError={formErrors.firstName}
                   />
+                  <ErrorMessage errors={formErrors} field="firstName" />
                 </div>
                 <div className="col">
                   <label>Last name</label>
-                  <input
+                  <InputField
                     type="text"
                     placeholder="Last name"
                     className="form-control"
                     {...register("lastName", { required: true })}
-                    required
+                    hasError={formErrors.lastName}
                   />
+                  <ErrorMessage errors={formErrors} field="lastName" />
                 </div>
               </div>
-              <label>Email</label>
-              <input
-                type="email"
-                placeholder="Email"
-                className="form-control"
-                {...register("email", { required: true })}
-                required
-              />
-              <label>Password</label>
-              <input
-                type="password"
-                placeholder="Password"
-                className={classNames(
-                  "form-control",
-                  errors?.password && "border border-danger text-danger"
+              <InputDiv>
+                <label>Email</label>
+                <InputField
+                  type="email"
+                  placeholder="Email"
+                  className="form-control"
+                  {...register("email", { required: true })}
+                  hasError={formErrors.email}
+                />
+                <ErrorMessage errors={formErrors} field="email" />
+              </InputDiv>
+              <InputDiv>
+                <label>Password</label>
+                <InputField
+                  type="password"
+                  placeholder="Password"
+                  className="form-control"
+                  {...register("password", { required: true })}
+                  hasError={formErrors.password || errors?.password}
+                />
+                <ErrorMessage errors={formErrors} field="password" />
+                {errors?.password && (
+                  <small className="text-danger">{errors.password}</small>
                 )}
-                {...register("password", { required: true })}
-                required
-              />
-              {errors?.password && (
-                <small className="text-danger">{errors.password}</small>
-              )}
-              <br />
-              <label>Confirm Password</label>
-              <input
-                type="password"
-                placeholder="Confirm password"
-                className={classNames(
-                  "form-control",
-                  errors?.password1 && "border border-danger text-danger"
+              </InputDiv>
+              <InputDiv>
+                <label>Confirm Password</label>
+                <InputField
+                  type="password"
+                  placeholder="Confirm password"
+                  className="form-control"
+                  {...register("password1", { required: true })}
+                  hasError={formErrors.password1 || errors?.password1}
+                />
+                <ErrorMessage errors={formErrors} field="password1" />
+                {errors?.password1 && (
+                  <small className="text-danger">{errors.password1}</small>
                 )}
-                {...register("password1", { require: true })}
-                required
-              />
-              {errors?.password1 && (
-                <small className="text-danger">{errors.password1}</small>
-              )}
+              </InputDiv>
               <div className="text-center">
-                <button
+                <SubmitBtn
                   className="btn  bg-green mt-4 text-white px-5"
                   type="submit"
+                  disabled={isSubmitting || Object.keys(formErrors).length}
                 >
                   Register
-                </button>
+                </SubmitBtn>
               </div>
             </form>
           </div>
