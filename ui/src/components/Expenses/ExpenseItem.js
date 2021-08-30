@@ -6,6 +6,7 @@ import {
   DeleteExpenseRequest,
   UpdateExpenseRequest,
 } from "store/actionCreators/expense";
+import { numberWithCommas } from "utils/aux";
 
 import { DeleteModal } from "components/Modal";
 import { DeleteIcon } from "icons";
@@ -64,7 +65,7 @@ const ExpenseItem = (props) => {
         </ExpenseTitle>
       </div>
       <ExpenseAmount>
-        &#8369; {amount}
+        &#8369; {numberWithCommas(amount)}
         <DeleteIcon
           onClick={() => setShowDeleteModal(true)}
           style={{
