@@ -2,18 +2,40 @@ import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
+import styled from "styled-components";
+import Alert from "react-bootstrap/Alert";
 
 import { LoginRequest } from "store/actionCreators/auth";
 
 import PublicContainer from "components/Containers/PublicContainer";
 
+const InputFieldError = styled.span`
+  color: red;
+  font-size: 12px;
+`;
+
+const InputField = styled.input`
+  color: ${({ hasError }) => hasError && "red"};
+  border: ${({ hasError }) => hasError && "1px solid red"};
+`;
+
+const SubmitBtn = styled.button`
+  cursor: ${({ disabled }) => disabled && "not-allowed"};
+`;
+
 const Login = (props) => {
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const [submitting, setSubmitting] = useState(false);
+  const [credsError, setCredsError] = useState("");
 
   const dispatch = useDispatch();
 
   const SubmitHandler = (data) => {
+    setCredsError("");
     new Promise((resolve, reject) => {
       setSubmitting(true);
       dispatch(LoginRequest({ resolve, reject, data }));
@@ -22,7 +44,7 @@ const Login = (props) => {
         props.history.push("/");
       })
       .catch((err) => {
-        console.log(err);
+        setCredsError("Invalid email or password.");
       })
       .finally(() => setSubmitting(false));
   };
@@ -57,36 +79,47 @@ const Login = (props) => {
             <h3 className="text-green auth-text-lg">
               Sign in to Budget Tracker
             </h3>
+            {credsError && (
+              <Alert style={{ marginTop: "20px" }} variant={"danger"}>
+                {credsError}
+              </Alert>
+            )}
             <div className="mt-4">
               <form onSubmit={handleSubmit(SubmitHandler)}>
                 <div className="form-group">
                   <label>Email</label>
-                  <input
+                  <InputField
                     type="email"
                     placeholder="Email"
                     className="form-control"
                     {...register("email", { required: true })}
-                    required
+                    hasError={errors.email || credsError}
                   />
+                  {errors.email && errors.email.type === "required" && (
+                    <InputFieldError>This field is required</InputFieldError>
+                  )}
                 </div>
                 <div className="form-group">
                   <label>Password</label>
-                  <input
+                  <InputField
                     type="password"
                     placeholder="Password"
                     className="form-control"
                     {...register("password", { required: true })}
-                    required
+                    hasError={errors.password || credsError}
                   />
+                  {errors.email && errors.email.type === "required" && (
+                    <InputFieldError>This field is required</InputFieldError>
+                  )}
                 </div>
                 <div className="text-center">
-                  <button
+                  <SubmitBtn
                     type="submit"
                     className="btn text-white px-5 bg-green"
                     disabled={submitting}
                   >
                     Sign In
-                  </button>
+                  </SubmitBtn>
                 </div>
               </form>
               <div className="text-center mt-4">
