@@ -17,6 +17,19 @@ module.exports = {
       let newUser = new UserModel({ firstName, lastName, email, password });
       let savedUser = await newUser.save();
 
+      let VerifyCode = new VerifyCodeModel({
+        userId: user._id,
+        code: Aux.GenerateCode(),
+      });
+
+      sendEmail(
+        user.email,
+        "Welcome to Expense Tracker App",
+        NewUserEmailTemplate(user.firstName, VerifyCode.code, user._id)
+      );
+
+      VerifyCode.save();
+
       return res.json(savedUser);
     } catch (err) {
       return res.status(400).json(err);

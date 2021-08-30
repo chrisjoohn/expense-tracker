@@ -22,7 +22,7 @@ const UserSchema = new Schema({
   email: {
     type: String,
     required: [true, "Email is required"],
-    unique: true,
+    unique: [true, "Email already in use"],
   },
   password: {
     type: String,
@@ -42,21 +42,6 @@ const UserSchema = new Schema({
 
 UserSchema.pre("save", function (next) {
   let user = this;
-
-  if (user.isNew) {
-    let VerifyCode = new VerifyCodeModel({
-      userId: user._id,
-      code: Aux.GenerateCode(),
-    });
-
-    sendEmail(
-      user.email,
-      "Welcome to Expense Tracker App",
-      NewUserEmailTemplate(user.firstName, VerifyCode.code, user._id)
-    );
-
-    VerifyCode.save();
-  }
 
   if (!user.isModified("password")) return next();
 
