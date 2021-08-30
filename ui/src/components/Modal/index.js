@@ -29,3 +29,5 @@ const Modal = ({ show, setShow, children, title }) => {
 };
 
 export default Modal;
+
+export { default as DeleteModal } from "./DeleteModal";
