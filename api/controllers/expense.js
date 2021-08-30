@@ -52,7 +52,7 @@ module.exports = {
   },
 
   find: async (req, res) => {
-    const { dateFrom, dateTo } = req.body;
+    const { dateFrom, dateTo } = req.query;
     try {
       const expenses = await ExpenseModel.find({ userID: req.user._id }).exec();
 
