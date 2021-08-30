@@ -8,21 +8,21 @@ const StyledTitle = styled.h4`
   font-weight: bold;
 `;
 
-const StyledModalChildren = styled.div``;
+const StyledModalChildren = styled.div`
+  padding: 10px;
+`;
 
 const Modal = ({ show, setShow, children, title }) => {
   return (
     <BootstrapModal
-      size="md"
+      size="sm"
       centered
       show={show}
       onHide={() => setShow(false)}
     >
       <BootstrapModal.Body>
-        <StyledModalChildren>
-          <StyledTitle>{title}</StyledTitle>
-          {children}
-        </StyledModalChildren>
+        <StyledTitle>{title}</StyledTitle>
+        <StyledModalChildren>{children}</StyledModalChildren>
       </BootstrapModal.Body>
     </BootstrapModal>
   );

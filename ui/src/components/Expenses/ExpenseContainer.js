@@ -1,6 +1,8 @@
+import { useState } from "react";
 import styled from "styled-components";
 
 import ExpenseItem from "./ExpenseItem";
+import Modal from "../Modal";
 import { PlusCircle } from "icons";
 
 const Wrapper = styled.div`
@@ -45,7 +47,8 @@ const EmptyContent = styled.div`
 `;
 
 const ExpenseContainer = (props) => {
-  const { title } = props;
+  const [showModal, setShowModal] = useState(false);
+  const { title, form: Form } = props;
 
   let expenses = [null, null, null, null, null, null, null];
   expenses = [];
@@ -54,15 +57,16 @@ const ExpenseContainer = (props) => {
 
   return (
     <div>
+      <Modal title={title} setShow={setShowModal} show={showModal}>
+        <Form />
+      </Modal>
       <TitleContainer>{title}</TitleContainer>
       <Wrapper>
         <ExpenseContainerWrapper isEmpty={isEmpty}>
           {expenses?.length > 0 ? (
             expenses.map((item) => <ExpenseItem {...item} />)
           ) : (
-            <EmptyContent
-              onClick={() => alert("This part is under construction!")}
-            >
+            <EmptyContent onClick={() => setShowModal(true)}>
               <span style={{ display: "block" }}>
                 Click here to add {title}
               </span>
@@ -70,7 +74,11 @@ const ExpenseContainer = (props) => {
             </EmptyContent>
           )}
         </ExpenseContainerWrapper>
-        {!isEmpty > 0 && <AddExpenseBtn>Add expense</AddExpenseBtn>}
+        {!isEmpty > 0 && (
+          <AddExpenseBtn onClick={() => setShowModal(true)}>
+            Add expense
+          </AddExpenseBtn>
+        )}
       </Wrapper>
     </div>
   );

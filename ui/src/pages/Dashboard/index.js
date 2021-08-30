@@ -7,7 +7,10 @@ import { MenuIcon } from "icons";
 import DatePicker from "components/DatePicker";
 import Sidebar from "components/Sidebar";
 
-import ExpenseContainer from "components/Expenses/ExpenseContainer";
+import {
+  FixedExpenseContainer,
+  OtherExpenseContainer,
+} from "components/Expenses";
 
 const ExpenseWrapper = styled.div`
   display: flex;
@@ -126,8 +129,8 @@ const Dashboard = (props) => {
         )}
       </ChartWrapper>
       <ExpenseWrapper>
-        <ExpenseContainer title="Fixed Expenses" />
-        <ExpenseContainer title="Other Expenses" />
+        <FixedExpenseContainer />
+        <OtherExpenseContainer />
       </ExpenseWrapper>
     </DashboardWrapper>
   );
