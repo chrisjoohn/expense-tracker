@@ -23,6 +23,11 @@ const ExpenseSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  fixedExpenseId: {
+    type: Schema.Types.ObjectId,
+    ref: "FixedExpenseModel",
+    default: null,
+  },
 });
 
 const ExpenseModel = new mongoose.model("Expense", ExpenseSchema);
