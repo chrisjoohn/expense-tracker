@@ -70,6 +70,9 @@ const EmptyContent = styled.div`
 
 const Dashboard = (props) => {
   const { list: expenses } = useSelector((state) => state.expense);
+  const {
+    datePicker: [{ startDate: dateFrom, endDate: dateTo }],
+  } = useSelector((state) => state.common);
 
   const dispatch = useDispatch();
 
@@ -81,8 +84,8 @@ const Dashboard = (props) => {
   const [chartData, setChartData] = useState([]);
 
   useEffect(() => {
-    dispatch(GetAllExpensesRequest());
-  }, []);
+    dispatch(GetAllExpensesRequest({ dateFrom, dateTo }));
+  }, [dateFrom, dateTo]);
 
   useEffect(() => {
     const total = [...expenses].reduce((acc, prev) => acc + prev.amount, 0);
