@@ -36,15 +36,6 @@ const DatePicker = (props) => {
   const { datePicker: dateRange } = useSelector((state) => state.common);
 
   const [dateText, setDateText] = useState("");
-  /*
-  const [dateRange, setDateRange] = useState([
-    {
-      startDate: new Date(date.getFullYear(), date.getMonth(), 1),
-      endDate: new Date(date.getFullYear(), date.getMonth() + 1, 0),
-      key: "selection",
-    },
-  ]);
-  */
   const [showDatePicker, setShowDatePicker] = useState(false);
 
   useEffect(() => {
