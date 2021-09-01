@@ -1,9 +1,12 @@
 import { DateRangePicker } from "react-date-range";
-import { useState, useMemo } from "react";
+import { useState, useEffect } from "react";
 import moment from "moment";
-import { ChevronUp, Chevrondown } from "icons";
-
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+
+import { SetDatePickerRange } from "store/actionCreators/common";
+
+import { ChevronUp, Chevrondown } from "icons";
 
 const Wrapper = styled.div`
   position: absolute;
@@ -29,8 +32,11 @@ const CalendarWrapper = styled.div``;
 const chevronStyles = { height: "15px", marginTop: "5px", marginLeft: "10px" };
 
 const DatePicker = (props) => {
-  const date = new Date();
+  const dispatch = useDispatch();
+  const { datePicker: dateRange } = useSelector((state) => state.common);
+
   const [dateText, setDateText] = useState("");
+  /*
   const [dateRange, setDateRange] = useState([
     {
       startDate: new Date(date.getFullYear(), date.getMonth(), 1),
@@ -38,8 +44,24 @@ const DatePicker = (props) => {
       key: "selection",
     },
   ]);
+  */
+  const [showDatePicker, setShowDatePicker] = useState(false);
 
-  useMemo(() => {
+  useEffect(() => {
+    const startDate = moment().startOf("month").toDate();
+    const endDate = moment().endOf("month").toDate();
+
+    const payload = [
+      {
+        startDate: startDate,
+        endDate: endDate,
+      },
+    ];
+
+    dispatch(SetDatePickerRange(payload));
+  }, []);
+
+  useEffect(() => {
     const { startDate, endDate } = dateRange[0];
     const startDateText = moment(startDate).format("MM/D/YYYY");
     const endDateText = moment(endDate).format("MM/D/YYYY");
@@ -47,7 +69,9 @@ const DatePicker = (props) => {
     setDateText(startDateText + " - " + endDateText);
   }, [dateRange]);
 
-  const [showDatePicker, setShowDatePicker] = useState(false);
+  const changeHandler = (item) => {
+    dispatch(SetDatePickerRange([item.range1]));
+  };
 
   return (
     <Wrapper>
@@ -66,9 +90,7 @@ const DatePicker = (props) => {
         {showDatePicker && (
           <DateRangePicker
             ranges={dateRange}
-            onChange={(item) => {
-              setDateRange([item.selection]);
-            }}
+            onChange={changeHandler}
             months={2}
             direction="horizontal"
             showSelectionPreview={true}

@@ -1,0 +1,2 @@
+
+export const SET_DATE_PICKER_RANGE = 'SET_DATE_PICKER_RANGE';
