@@ -1,5 +1,5 @@
 import { DateRangePicker } from "react-date-range";
-import { useState, useEffect } from "react";
+import { useState, useEffect, createRef } from "react";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
@@ -33,6 +33,7 @@ const chevronStyles = { height: "15px", marginTop: "5px", marginLeft: "10px" };
 
 const DatePicker = (props) => {
   const dispatch = useDispatch();
+  const containerRef = createRef(null);
   const { datePicker: dateRange } = useSelector((state) => state.common);
 
   const [dateText, setDateText] = useState("");
@@ -60,12 +61,25 @@ const DatePicker = (props) => {
     setDateText(startDateText + " - " + endDateText);
   }, [dateRange]);
 
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (containerRef.current && !containerRef.current.contains(e.target)) {
+        setShowDatePicker(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [containerRef]);
+
   const changeHandler = (item) => {
     dispatch(SetDatePickerRange([item.range1]));
   };
 
   return (
-    <Wrapper>
+    <Wrapper ref={containerRef}>
       <SpanContainer
         onClick={() => setShowDatePicker(!showDatePicker)}
         className="no-hightlights"
