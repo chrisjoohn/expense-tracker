@@ -40,20 +40,6 @@ const DatePicker = (props) => {
   const [showDatePicker, setShowDatePicker] = useState(false);
 
   useEffect(() => {
-    const startDate = moment().startOf("month").toDate();
-    const endDate = moment().endOf("month").toDate();
-
-    const payload = [
-      {
-        startDate: startDate,
-        endDate: endDate,
-      },
-    ];
-
-    dispatch(SetDatePickerRange(payload));
-  }, []);
-
-  useEffect(() => {
     const { startDate, endDate } = dateRange[0];
     const startDateText = moment(startDate).format("MM/D/YYYY");
     const endDateText = moment(endDate).format("MM/D/YYYY");
