@@ -64,11 +64,11 @@ module.exports = {
         return res.json(
           expenses.filter((expense) => {
             return (
-              moment(expense.dateUpdated).isSameOrAfter(
+              moment(expense.dateCreated).isSameOrAfter(
                 moment(dateFrom),
                 "day"
               ) &&
-              moment(expense.dateUpdated).isSameOrBefore(moment(dateTo), "day")
+              moment(expense.dateCreated).isSameOrBefore(moment(dateTo), "day")
             );
           })
         );
@@ -78,7 +78,7 @@ module.exports = {
 
       res.json(
         expenses.filter((expense) => {
-          return moment(expense.dateUpdated).isSame(moment(), "month");
+          return moment(expense.dateCreated).isSame(moment(), "month");
         })
       );
     } catch (err) {
