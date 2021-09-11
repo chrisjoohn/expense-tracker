@@ -34,11 +34,13 @@ const Dashboard = (props) => {
         }}
       />
       <Switch>
+        <Route path="/reports" render={() => <h1>Reports</h1>} exact />
         <Route
-          path={props.match.url + "/fixed-expenses"}
+          path="/fixed-expenses"
           render={() => <h1>Fixed Expenses</h1>}
+          exact
         />
-        <Route path={props.match.url} component={Main} exact />
+        <Route path="/" component={Main} exact />
       </Switch>
     </DashboardWrapper>
   );
