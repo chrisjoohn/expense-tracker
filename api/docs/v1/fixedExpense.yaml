@@ -1,0 +1,130 @@
+definitions:
+  FixedExpenseRequest:
+    required:
+      - title
+      - amount
+      - monthsToPay
+    properties:
+      title:
+        type: string
+      amount:
+        type: number
+      monthsToPay:
+        type: number
+    example:
+      title: "Sample Fixed Expense"
+      amount: 5000
+      monthsToPay: 10
+
+  FixedExpenseResponse:
+    example:
+      _id: "612adf7ae1fe5e003d0d9ece"
+      title: "Sample Fixed Expense"
+      amount: 5000
+      monthsToPay: 10
+
+paths:
+  /fixed-expenses:
+    post:
+      description: If monthsToPay = -1, expense is a subscription
+      summary: Create Fixed Expense
+      tags:
+        - Fixed Expenses
+      parameters:
+        - in: body
+          properties:
+          schema:
+            type: object
+            $ref: "#/definitions/FixedExpenseRequest"
+
+      responses:
+        200:
+          description: Create Success
+          schema:
+            type: object
+            $ref: "#/definitions/FixedExpenseResponse"
+
+    get:
+      summary: Get All Fixed Expenses
+      tags:
+        - Fixed Expenses
+
+      responses:
+        200:
+          type: array
+          items:
+            $ref: "#/definitions/FixedExpenseResponse"
+
+
+  /fixed-expenses/{id}:
+    get:
+      summary: Get Specific Fixed Expense
+      tags:
+        - Fixed Expenses
+      responses:
+        200:
+          schema:
+            type: object
+            $ref: "#/definitions/FixedExpenseResponse"
+
+    delete:
+      summary: Delete Fixed Expense
+      tags:
+        - Fixed Expenses
+
+      responses:
+        200:
+          schema:
+            type: object
+            example:
+              id: "612adf7ae1fe5e003d0d9ece"
+
+
+
+    patch:
+      summary: Update Fixed Expense
+      tags:
+        - Fixed Expenses
+
+      parameters:
+        - in: body
+          properties:
+          schema:
+            type: object
+            $ref: "#/definitions/FixedExpenseRequest"
+
+      responses:
+        200:
+          schema:
+            type: object
+            $ref: "#/definitions/FixedExpenseResponse"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
