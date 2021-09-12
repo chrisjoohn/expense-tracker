@@ -5,7 +5,10 @@ const VerifyCodeModel = require("../models/verifyCode");
 
 const { sendEmail } = require("../utils/emailHandler");
 const { GenerateCode } = require("../helpers/aux");
-const { ResendVerifyCodeEmailTemplate } = require("../utils/emailTemplates");
+const {
+  ResendVerifyCodeEmailTemplate,
+  NewUserEmailTemplate,
+} = require("../utils/emailTemplates");
 
 const TOKEN_SECRET = process.env.TOKEN_SECRET;
 
@@ -17,9 +20,11 @@ module.exports = {
       let newUser = new UserModel({ firstName, lastName, email, password });
       let savedUser = await newUser.save();
 
+      const user = { ...newUser._doc };
+
       let VerifyCode = new VerifyCodeModel({
         userId: user._id,
-        code: Aux.GenerateCode(),
+        code: GenerateCode(),
       });
 
       sendEmail(
@@ -32,6 +37,7 @@ module.exports = {
 
       return res.json(savedUser);
     } catch (err) {
+      UserModel.findOneAndDelete({ email }).exec();
       return res.status(400).json(err);
     }
   },
