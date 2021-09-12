@@ -1,5 +1,10 @@
-const FixedExpenseModel = require("../models/fixedExpense");
 import moment from "moment";
+
+import FixedExpenseModel from "../models/fixedExpense";
+import ExpenseModel from "../models/expense";
+
+import { findExpenses } from "../services/expenseServices";
+import { getFixedExpenses } from "../services/fixedExpenseServices";
 
 module.exports = {
   create: async (req, res) => {
@@ -23,8 +28,6 @@ module.exports = {
 
   findAll: async (req, res) => {
     const { dateFrom, dateTo } = req.query;
-
-    console.log(req.user._id);
 
     try {
       const fixedExpenses = await FixedExpenseModel.find({
@@ -113,6 +116,51 @@ module.exports = {
       return res.json({ id: deletedFixedExpense._id });
     } catch (err) {
       res.status(400).json(err);
+    }
+  },
+
+  getPayables: async (req, res) => {
+    const { dateFrom, dateTo } = req.query;
+
+    const { _id: userID } = req.user;
+
+    // Get fixed expenses that is already logged on expenses;
+    const expenses = (await findExpenses({ userID })).filter(
+      ({ fixedExpenseId }) => fixedExpenseId
+    );
+
+    // Get All Fixed expenses
+    const fixedExpenses = await getFixedExpenses({ userID });
+
+    //Find fixedExpenses that is not on expenses
+    const toBeCreatedExpenses = fixedExpenses
+      .filter(
+        (fixedExpense) =>
+          !expenses.some(({ fixedExpenseId }) => {
+            return fixedExpenseId.toString() === fixedExpense._id.toString();
+          })
+      )
+      .map(({ title, amount, monthsToPay, _id }) => {
+        return {
+          userID,
+          title,
+          fixedExpenseId: _id,
+          amount: monthsToPay === -1 ? amount : amount / monthsToPay,
+        };
+      });
+
+    try {
+      // Create instances of Expense from FixedExpense
+      await ExpenseModel.insertMany(toBeCreatedExpenses);
+
+      const expenseRes = (
+        await findExpenses({ userID, dateTo, dateFrom })
+      ).filter(({ fixedExpenseId }) => fixedExpenseId);
+
+      // return new payables from expenses
+      return res.json(expenseRes);
+    } catch (err) {
+      return res.status(400).json(err);
     }
   },
 };
