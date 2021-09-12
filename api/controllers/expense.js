@@ -58,11 +58,13 @@ module.exports = {
     const { _id: userID } = req.user;
 
     try {
-      const expenses = await expenseServices.findExpenses({
-        dateTo,
-        dateFrom,
-        userID,
-      });
+      const expenses = (
+        await expenseServices.findExpenses({
+          dateTo,
+          dateFrom,
+          userID,
+        })
+      ).filter((expense) => !expense.fixedExpenseId);
 
       res.json(expenses);
     } catch (err) {
