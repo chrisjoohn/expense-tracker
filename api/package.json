@@ -8,6 +8,7 @@
     "@babel/core": "^7.14.8",
     "@babel/node": "^7.14.7",
     "@babel/preset-env": "^7.14.8",
+    "@babel/register": "^7.15.3",
     "chai": "^4.3.4",
     "chai-http": "^4.3.0",
     "mocha": "^9.0.3",
@@ -16,7 +17,7 @@
   "scripts": {
     "dev": "nodemon --exec babel-node server.js",
     "start": "node server.js",
-    "test": "mocha --recursive --exit --timeout=10000"
+    "test": "mocha --recursive --exit --timeout=10000 --require @babel/register"
   },
   "dependencies": {
     "@sendgrid/mail": "^7.4.2",

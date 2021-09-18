@@ -4,7 +4,7 @@ const { expect } = chai;
 const ExpenseModel = require("../../models/expense");
 const UserModel = require("../../models/user");
 
-const BASE_URL = "/api/v1/expense";
+const BASE_URL = "/api/v1/expenses";
 
 describe("Expense Controller Tests", () => {
   const expenseDetails = {
