@@ -5,6 +5,7 @@ import ExpenseModel from "../models/expense";
 
 import { findExpenses } from "../services/expenseServices";
 import { getFixedExpenses } from "../services/fixedExpenseServices";
+import { combineExpenses } from "../utils/aux";
 
 module.exports = {
   create: async (req, res) => {
@@ -158,7 +159,7 @@ module.exports = {
       ).filter(({ fixedExpenseId }) => fixedExpenseId);
 
       // return new payables from expenses
-      return res.json(expenseRes);
+      return res.json(combineExpenses(expenseRes, "fixedExpenseId"));
     } catch (err) {
       return res.status(400).json(err);
     }
