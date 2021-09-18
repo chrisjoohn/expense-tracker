@@ -2,8 +2,17 @@ import moment from "moment";
 
 import ExpenseModel from "../models/expense";
 
-export const findExpenses = async ({ dateTo, dateFrom, userID }) => {
+export const findExpenses = async ({
+  dateTo,
+  dateFrom,
+  userID,
+  all = false,
+}) => {
   const expenses = await ExpenseModel.find({ userID }).exec();
+
+  if (all) {
+    return expenses;
+  }
 
   if (
     dateFrom &&
