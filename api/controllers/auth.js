@@ -17,6 +17,15 @@ module.exports = {
     const { firstName, lastName, email, password } = req.body;
 
     try {
+      const sameEmail = await UserModel.findOne({ email }).exec();
+
+      // Check if email  already exists
+      if (sameEmail) {
+        return res
+          .status(400)
+          .json({ errors: { email: { message: "Email already exists!" } } });
+      }
+
       let newUser = new UserModel({ firstName, lastName, email, password });
       let savedUser = await newUser.save();
 

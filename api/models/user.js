@@ -22,7 +22,6 @@ const UserSchema = new Schema({
   email: {
     type: String,
     required: [true, "Email is required"],
-    unique: true,
   },
   password: {
     type: String,
@@ -51,10 +50,6 @@ UserSchema.pre("save", function (next) {
     next();
   });
 });
-
-UserSchema.path("email").validate(async (email) => {
-  return false;
-}, "Email already exists");
 
 UserSchema.methods.toJSON = function () {
   let obj = this.toObject();
