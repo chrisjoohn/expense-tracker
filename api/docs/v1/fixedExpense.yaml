@@ -61,6 +61,12 @@ paths:
       summary: Get Specific Fixed Expense
       tags:
         - Fixed Expenses
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
       responses:
         200:
           schema:

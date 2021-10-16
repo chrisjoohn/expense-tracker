@@ -31,7 +31,7 @@ definitions:
       $ref: "#/definitions/ExpenseResponse"
 
 paths:
-  /expense:
+  /expenses:
     post:
       description: Create Expense
       tags:
@@ -62,7 +62,7 @@ paths:
             $ref: "#/definitions/ExpenseResponse"
         # Add example response here
 
-  /expense/{expenseID}:
+  /expenses/{expenseID}:
     get:
       description: Get specific expense
       tags:
@@ -73,6 +73,7 @@ paths:
           name: expenseID
           schema:
             type: string
+          required: true
       responses:
         200:
           schema:
