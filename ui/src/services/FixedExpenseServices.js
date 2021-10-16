@@ -9,3 +9,4 @@ export const GetFixedExpense = (id) => API.get(BASE_PATH + `/${id}`);
 export const UpdateFixedexpense = (id, reqBody) =>
   API.patch(BASE_PATH + `/${id}`, reqBody);
 export const DeleteFixedExpense = (id) => API.delete(BASE_PATH + `/${id}`);
+export const GetPayables = () => API.get(BASE_PATH + "/payables");
