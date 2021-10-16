@@ -4,7 +4,7 @@ import FixedExpenseModel from "../models/fixedExpense";
 import ExpenseModel from "../models/expense";
 
 import { findExpenses } from "../services/expenseServices";
-import { getFixedExpenses } from "../services/fixedExpenseServices";
+import { getToBeCreatedExpenses } from "../services/fixedExpenseServices";
 import { combineExpenses } from "../utils/aux";
 
 module.exports = {
@@ -125,30 +125,11 @@ module.exports = {
 
     const { _id: userID } = req.user;
 
-    // Get fixed expenses that is already logged on expenses;
-    const expenses = (await findExpenses({ userID })).filter(
-      ({ fixedExpenseId }) => fixedExpenseId
-    );
+    const toBeCreatedExpenses = await getToBeCreatedExpenses({
+      userID,
+    });
 
-    // Get All Fixed expenses
-    const fixedExpenses = await getFixedExpenses({ userID });
-
-    //Find fixedExpenses that is not on expenses
-    const toBeCreatedExpenses = fixedExpenses
-      .filter(
-        (fixedExpense) =>
-          !expenses.some(({ fixedExpenseId }) => {
-            return fixedExpenseId.toString() === fixedExpense._id.toString();
-          })
-      )
-      .map(({ title, amount, monthsToPay, _id }) => {
-        return {
-          userID,
-          title,
-          fixedExpenseId: _id,
-          amount: monthsToPay === -1 ? amount : amount / monthsToPay,
-        };
-      });
+    //return res.json({ message: "ok", toBeCreatedExpenses });
 
     try {
       // Create instances of Expense from FixedExpense
@@ -161,6 +142,7 @@ module.exports = {
       // return new payables from expenses
       return res.json(combineExpenses(expenseRes, "fixedExpenseId"));
     } catch (err) {
+      console.log(err);
       return res.status(400).json(err);
     }
   },
