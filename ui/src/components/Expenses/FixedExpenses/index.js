@@ -1,8 +1,16 @@
+import { useSelector } from "react-redux";
 import ExpenseContainer from "../ExpenseContainer";
 
 import FixedExpenseForm from "./form";
 const FixedExpenseContainer = (props) => {
-  return <ExpenseContainer title="Fixed Expenses" form={FixedExpenseForm} />;
+  const { list } = useSelector((state) => state.fixedExpense);
+  return (
+    <ExpenseContainer
+      title="Fixed Expenses"
+      form={FixedExpenseForm}
+      expenses={list}
+    />
+  );
 };
 
 export default FixedExpenseContainer;

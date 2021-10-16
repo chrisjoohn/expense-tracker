@@ -10,6 +10,7 @@ import {
 } from "components/Expenses";
 
 import { GetAllExpensesRequest } from "store/actionCreators/expense";
+import { GetPayabales } from "store/actionCreators/fixedExpense";
 import { numberWithCommas } from "utils/aux";
 import {
   DASHBOARD_DATAS,
@@ -77,6 +78,7 @@ const Dashboard = (props) => {
 
   useEffect(() => {
     dispatch(GetAllExpensesRequest({ dateFrom, dateTo }));
+    dispatch(GetPayabales());
   }, [dateFrom, dateTo]);
 
   useEffect(() => {
