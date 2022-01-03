@@ -24,6 +24,20 @@ definitions:
       monthsToPay: 10
 
 paths:
+  /fixed-expenses/payables:
+    get:
+      description: Get fixed expenses
+      tags:
+        - Fixed Expenses
+      responses:
+        200:
+          description: Success
+        401: 
+          description: Unauthorized
+        404:
+          description: Bad Request
+
+
   /fixed-expenses:
     post:
       description: If monthsToPay = -1, expense is a subscription
@@ -104,33 +118,4 @@ paths:
           schema:
             type: object
             $ref: "#/definitions/FixedExpenseResponse"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
