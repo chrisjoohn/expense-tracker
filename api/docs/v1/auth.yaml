@@ -32,11 +32,6 @@ definitions:
           status:
             type: string
 
-  Login:
-    required:
-      - email
-      - password
-
     properties:
       email:
         type: string
@@ -49,6 +44,18 @@ definitions:
         type: string
       token:
         type: string
+
+components:
+  schemas:
+    Login:
+      type: object
+      properties:
+        email:
+          type: string
+          example: expenseuser@dispostable.com
+        password:
+          type: string
+          example: P@ssw0rd!
 
 paths:
   /auth/register:
@@ -73,13 +80,13 @@ paths:
       description: User login
       tags:
         - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Login'
 
-      parameters:
-        - in: body
-          properties:
-          schema:
-            type: object
-            $ref: "#/definitions/Login"
 
       responses:
         200:
