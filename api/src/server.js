@@ -25,8 +25,10 @@ app.use("/api/v1", routes);
 
 app.use("/api/v1/docs", swaggerUi.serve, swaggerUi.setup(v1Docs));
 
-const PORT = process.env.API_PORT || 8080;
+const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => console.log(`Server running on port: ${PORT}...`));
+app.listen(PORT, "0.0.0.0", () =>
+  console.log(`Server running on port: ${PORT}...`)
+);
 
 module.exports = app; // To be used for unit testing
