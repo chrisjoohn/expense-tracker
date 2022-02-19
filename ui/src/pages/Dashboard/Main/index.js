@@ -136,7 +136,7 @@ const Dashboard = (props) => {
         )}
       </ChartWrapper>
       <ExpenseWrapper>
-        <FixedExpenseContainer />
+        {/*<FixedExpenseContainer />*/}
         <OtherExpenseContainer />
       </ExpenseWrapper>
     </>
