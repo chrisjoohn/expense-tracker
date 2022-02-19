@@ -1,5 +1,5 @@
 
-
+#### DEV ####
 up:
 	docker-compose up -d
 
@@ -21,3 +21,12 @@ access-ui-sh:
 
 api-test:
 	clear && docker-compose exec api yarn test
+
+
+#### PROD ####
+
+prod-up:
+	docker-compose -f docker-compose.prod.yml up -d
+
+prod-rebuild:
+	docker-compose -f docker-compose.prod.yml up -d --build

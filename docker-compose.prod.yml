@@ -11,7 +11,7 @@ services:
       - 3000:3000
     environment:
       - CHOKIDAR_USEPOLLING=true
-    env_file: .env
+    env_file: ./api/.env.prod
     stdin_open: true
 
   api:
@@ -24,7 +24,7 @@ services:
       - 8080:8080
     depends_on:
       - mongo
-    env_file: ./api/.env
+    env_file: ./api/.env.prod
     command: yarn dev
 
   mongo:
@@ -34,4 +34,4 @@ services:
       - 27017:27017
 
 volumes:
-  node_modules:  
+  node_modules:
