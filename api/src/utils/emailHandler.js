@@ -4,7 +4,7 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 const sendEmail = (recipient, subject, emailContent) => {
   const msg = {
     to: recipient,
-    from: "etracker2021@gmail.com",
+    from: process.env.SENDGRID_EMAIL,
     subject,
     html: emailContent,
   };

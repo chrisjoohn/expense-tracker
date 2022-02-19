@@ -36,16 +36,21 @@ module.exports = {
         code: GenerateCode(),
       });
 
+      const verifyLink = `${req.protocol}://${req.get(
+        "host"
+      )}/api/v1/auth/verify-email/${user._id}/${VerifyCode.code}`;
+
       sendEmail(
         user.email,
         "Welcome to Expense Tracker App",
-        NewUserEmailTemplate(user.firstName, VerifyCode.code, user._id)
+        NewUserEmailTemplate(user.firstName, verifyLink)
       );
 
       VerifyCode.save();
 
       return res.json(savedUser);
     } catch (err) {
+      console.log(err);
       UserModel.findOneAndDelete({ email }).exec();
       return res.status(400).json(err);
     }
@@ -122,14 +127,14 @@ module.exports = {
       newVerifyCode.save();
 
       try {
+        const verifyLink = `${req.protocol}://${req.get(
+          "host"
+        )}/api/v1/auth/verify-email/${user._id}/${newVerifyCode.code}`;
+
         sendEmail(
           email,
           "Verification code",
-          ResendVerifyCodeEmailTemplate(
-            user.firstName,
-            newVerifyCode.code,
-            user._id
-          )
+          ResendVerifyCodeEmailTemplate(user.firstName, verifyLink)
         );
       } catch (err) {
         return res.status(500).json(err);
