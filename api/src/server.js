@@ -11,6 +11,10 @@ const swaggerUi = require("swagger-ui-express");
 
 const app = express();
 
+const envFilePath =
+  process.env.NODE_ENV === "development" ? ".env" : ".env.prod";
+
+require("dotenv").config({ path: envFilePath });
 require("./config/db");
 
 app.use(cors());
