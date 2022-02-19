@@ -11,7 +11,7 @@ services:
       - 3000:3000
     environment:
       - CHOKIDAR_USEPOLLING=true
-    env_file: ./api/.env.prod
+    env_file: ./ui/.env.local
     stdin_open: true
 
   api:
