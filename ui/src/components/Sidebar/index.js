@@ -36,7 +36,6 @@ const SidebarItem = styled.a`
 
 const SIDEBAR_ITEMS = [
   { name: "Home", path: "/" },
-  { name: "Fixed Expenses", path: "/fixed-expenses" },
   { name: "Reports", path: "/reports" },
 ];
 
