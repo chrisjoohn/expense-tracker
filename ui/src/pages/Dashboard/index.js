@@ -6,6 +6,7 @@ import Sidebar from "components/Sidebar";
 import { MenuIcon } from "icons";
 
 import Main from "./Main";
+import Reports from "./Reports";
 
 const DashboardWrapper = styled.div`
   height: 100vh;
@@ -34,7 +35,7 @@ const Dashboard = (props) => {
         }}
       />
       <Switch>
-        <Route path="/reports" render={() => <h1>Reports</h1>} exact />
+        <Route path="/reports" component={Reports} exact />
         {/*
         <Route
           path="/fixed-expenses"
