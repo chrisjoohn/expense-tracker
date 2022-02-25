@@ -1,2 +1,2 @@
-export { default as FixedExpenseContainer } from "./FixedExpenses";
-export { default as OtherExpenseContainer } from "./OtherExpenses";
+export { default as ExpenseContainer } from "./ExpenseContainer";
+export { default as ExpenseItem } from "./ExpenseItem";

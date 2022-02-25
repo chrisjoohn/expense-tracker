@@ -24,7 +24,7 @@ const InputFieldError = styled.span`
   font-size: 12px;
 `;
 
-const OtherExpenseForm = (props) => {
+const ExpenseForm = (props) => {
   const { setShowModal } = props;
   const dispatch = useDispatch();
 
@@ -82,4 +82,4 @@ const OtherExpenseForm = (props) => {
   );
 };
 
-export default OtherExpenseForm;
+export default ExpenseForm;

@@ -4,10 +4,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import DatePicker from "components/DatePicker";
-import {
-  FixedExpenseContainer,
-  OtherExpenseContainer,
-} from "components/Expenses";
+import ExpenseList from "./ExpenseList";
 
 import { GetAllExpensesRequest } from "store/actionCreators/expense";
 import { numberWithCommas } from "utils/aux";
@@ -137,7 +134,7 @@ const Dashboard = (props) => {
       </ChartWrapper>
       <ExpenseWrapper>
         {/*<FixedExpenseContainer />*/}
-        <OtherExpenseContainer />
+        <ExpenseList />
       </ExpenseWrapper>
     </>
   );
