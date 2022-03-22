@@ -1,15 +1,10 @@
+import { useRef } from "react";
 import styled from "styled-components";
 import { useLocation, useHistory } from "react-router-dom";
-
-const Wrapper = styled.div`
-  position: absolute;
-  z-index: 2;
-  width: 100vw;
-  height: 100%;
-`;
+import useOutsideClick from "../../utils/detectOutsideClickUtil";
 
 const SidebarWrapper = styled.div`
-  position: relative;
+  position: absolute;
   height: 100%;
   background-color: #00bfa6;
   width: 20vw;
@@ -19,6 +14,8 @@ const SidebarWrapper = styled.div`
   flex-direction: column;
   text-align: center;
   color: #fff;
+  left: ${({ isOpen }) => (isOpen ? "-500px" : 0)};
+  transition: left ease-in-out 0.8s;
 `;
 
 const SidebarItemsContainer = styled.div``;
@@ -42,6 +39,7 @@ const SIDEBAR_ITEMS = [
 const Sidebar = (props) => {
   const { pathname } = useLocation();
   const history = useHistory();
+  const ref = useRef();
 
   const { hidden, hideSidebar } = props;
 
@@ -58,38 +56,38 @@ const Sidebar = (props) => {
     hideSidebar();
   };
 
+  useOutsideClick(ref, hideSidebar);
+
   return (
-    <Wrapper hidden={hidden} onClick={hideSidebar}>
-      <SidebarWrapper onClick={(e) => e.stopPropagation()}>
-        <div />
-        <SidebarItemsContainer>
-          {SIDEBAR_ITEMS.map((sidebarItem) => (
-            <SidebarItem
-              style={{ display: "block" }}
-              key={sidebarItem.path}
-              active={pathname === sidebarItem.path}
-              href="#"
-              onClick={(e) => sidebarItemClickHandler(e, sidebarItem.path)}
-              style={{ color: "white" }}
-              className="no-hightlights"
-            >
-              {" "}
-              {sidebarItem.name}
-            </SidebarItem>
-          ))}
-        </SidebarItemsContainer>
-        <LogoutContainer>
-          <hr style={{ width: "60%", backgroundColor: "white" }} />
+    <SidebarWrapper isOpen={hidden} onClick={hideSidebar} ref={ref}>
+      <div />
+      <SidebarItemsContainer>
+        {SIDEBAR_ITEMS.map((sidebarItem) => (
           <SidebarItem
+            style={{ display: "block" }}
+            key={sidebarItem.path}
+            active={pathname === sidebarItem.path}
             href="#"
-            onClick={logoutClickHandler}
+            onClick={(e) => sidebarItemClickHandler(e, sidebarItem.path)}
             style={{ color: "white" }}
+            className="no-hightlights"
           >
-            Logout
+            {" "}
+            {sidebarItem.name}
           </SidebarItem>
-        </LogoutContainer>
-      </SidebarWrapper>
-    </Wrapper>
+        ))}
+      </SidebarItemsContainer>
+      <LogoutContainer>
+        <hr style={{ width: "60%", backgroundColor: "white" }} />
+        <SidebarItem
+          href="#"
+          onClick={logoutClickHandler}
+          style={{ color: "white" }}
+        >
+          Logout
+        </SidebarItem>
+      </LogoutContainer>
+    </SidebarWrapper>
   );
 };
 

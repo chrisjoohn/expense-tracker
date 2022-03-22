@@ -1,8 +1,15 @@
 import * as actionTypes from "../constants/expense";
+import moment from "moment";
 
 const initialState = {
   list: [],
   active: {},
+  datePicker: [
+    {
+      startDate: moment().startOf("month").toDate(),
+      endDate: moment().endOf("month").toDate(),
+    },
+  ],
 };
 
 export default (state = initialState, action) => {

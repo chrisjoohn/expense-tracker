@@ -14,6 +14,7 @@ import {
   DASHBOARD_NAME_MAP,
   DASHBOARD_VALUE_MAP,
 } from "utils/constants";
+import { SetDatePickerRange } from "store/actionCreators/common";
 
 const ExpenseWrapper = styled.div`
   display: flex;
@@ -64,6 +65,8 @@ const Dashboard = (props) => {
     datePicker: [{ startDate: dateFrom, endDate: dateTo }],
   } = useSelector((state) => state.common);
 
+  const { datePicker: dateRange } = useSelector((state) => state.common);
+
   const dispatch = useDispatch();
 
   const [totalExpenses, setTotalExpenses] = useState({
@@ -96,11 +99,15 @@ const Dashboard = (props) => {
     );
   }, [expenses]);
 
+  const changeHandler = (item) => {
+    dispatch(SetDatePickerRange([item.range1]));
+  };
+
   return (
     <>
       <H1 className="no-hightlights">Dashboard</H1>
       <ChartWrapper>
-        <DatePicker />
+        <DatePicker changeHandler={changeHandler} dateRange={dateRange} />
         {expenses.length ? (
           <>
             <ChartDetail>
