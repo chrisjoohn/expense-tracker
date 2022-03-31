@@ -19,6 +19,19 @@ export default (state = initialState, action) => {
         list: [...state.list, action.payload],
       };
 
+    case actionTypes.UPDATE_EXPENSE_REQUEST:
+      return {
+        ...state,
+        list: [
+          ...state.list.map((item) => {
+            if (item._id === action.payload.id) {
+              return { ...item, ...action.payload.data };
+            }
+            return item;
+          }),
+        ],
+      };
+
     case actionTypes.UPDATE_EXPENSE_SUCCESS:
       return {
         ...state,
@@ -26,6 +39,19 @@ export default (state = initialState, action) => {
           ...state.list.map((item) => {
             if (item._id === action.payload._id) {
               return action.payload;
+            }
+            return item;
+          }),
+        ],
+      };
+
+    case actionTypes.UPDATE_EXPENSE_FAIL:
+      return {
+        ...state,
+        list: [
+          ...state.list.map((item) => {
+            if (item._id === action.payload.id) {
+              return { ...item, isPaid: false };
             }
             return item;
           }),

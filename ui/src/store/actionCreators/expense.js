@@ -40,6 +40,11 @@ export const UpdateExpenseSuccess = (payload) => ({
   payload,
 });
 
+export const UpdateExpenseFail = (payload) => ({
+  type: actionTypes.UPDATE_EXPENSE_FAIL,
+  payload,
+});
+
 export const DeleteExpenseRequest = (payload) => ({
   type: actionTypes.DELETE_EXPENSE_REQUEST,
   payload,
