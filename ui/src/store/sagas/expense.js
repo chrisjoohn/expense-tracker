@@ -34,7 +34,10 @@ function* UpdateExpenseFlow(action) {
   try {
     let updatedExpense = yield call(services.UpdateExpenseService, id, data);
     yield put(actionCreators.UpdateExpenseSuccess(updatedExpense));
-  } catch (err) {}
+  } catch (err) {
+    alert("Something went wrong");
+    yield put(actionCreators.UpdateExpenseFail({ id }));
+  }
 }
 
 function* DeleteExpenseFlow(action) {
