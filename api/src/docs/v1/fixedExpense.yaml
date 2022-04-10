@@ -28,7 +28,7 @@ paths:
     get:
       description: Get fixed expenses
       tags:
-        - Fixed Expenses
+        - Fixed Expenses [Deprecated]
       responses:
         200:
           description: Success
@@ -43,7 +43,7 @@ paths:
       description: If monthsToPay = -1, expense is a subscription
       summary: Create Fixed Expense
       tags:
-        - Fixed Expenses
+        - Fixed Expenses [Deprecated]
       parameters:
         - in: body
           properties:
@@ -61,7 +61,7 @@ paths:
     get:
       summary: Get All Fixed Expenses
       tags:
-        - Fixed Expenses
+        - Fixed Expenses [Deprecated]
 
       responses:
         200:
@@ -74,7 +74,7 @@ paths:
     get:
       summary: Get Specific Fixed Expense
       tags:
-        - Fixed Expenses
+        - Fixed Expenses [Deprecated]
       parameters:
         - in: path
           name: id
@@ -90,7 +90,7 @@ paths:
     delete:
       summary: Delete Fixed Expense
       tags:
-        - Fixed Expenses
+        - Fixed Expenses [Deprecated]
 
       responses:
         200:
@@ -104,7 +104,7 @@ paths:
     patch:
       summary: Update Fixed Expense
       tags:
-        - Fixed Expenses
+        - Fixed Expenses [Deprecated]
 
       parameters:
         - in: body
