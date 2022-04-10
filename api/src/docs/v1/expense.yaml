@@ -51,10 +51,20 @@ paths:
         400:
           description: Bad request
 
+  /expenses?dateTo={dateTo}&dateFrom={dateFrom}:
     get:
-      description: Get All Expenses
+      description: Get All Expenses with given date range. Date range is optional, if none given, it would return current month
       tags:
         - Expense
+      parameters:
+        - in: query
+          name: dateTo
+          schema:
+            type: Date
+        - in: query
+          name: dateFrom
+          schema:
+            type: Date
       responses:
         200:
           type: array
